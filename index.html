@@ -1,0 +1,2170 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!--
+  HOW TO EDIT THIS PAGE
+  =====================
+  Open this file in a text editor (VS Code, Notepad, or TextEdit in plain-text mode) and use Find (Ctrl/Cmd+F) to jump around.
+  Search for one of these markers:
+
+    [TEXT]      a piece of text you can change. Change only the words and keep the <tags> around them.
+    [IMAGE]     a picture slot.
+    [ARTWORK]   the start of one artwork on the main page (title, picture, description, button).
+    [DOSSIER]   a pop-up page opened by a button (it has its own text and 4 picture slots).
+
+  ADDING YOUR OWN PICTURES (png or jpg files on your computer)
+    1. Make a folder called images next to this html file and copy your pictures into it.
+       Use short names without spaces, for example images/matchmaking.jpg. About 1600 px wide is plenty.
+    2. Main page: search [IMAGE] and change the src="..." of the <img> tag to "images/your-file.jpg".
+    3. Pop-up pages: search [IMAGE]. Each slot has a short instruction above it and a ready-made <img> line.
+    4. Open the file in your browser to check. The pictures load from the images folder, so keep the folder next to the file.
+    5. To get ONE self-contained file (needed to publish the page as a Claude artifact or to send it by email), run
+           python3 embed-images.py this-file.html
+       and use the new file ending in -embedded.html.
+
+  If a picture does not show, check the spelling of the file name and the folder name (capital letters matter on some systems).
+-->
+<title>Cybernetics with Chinese Characteristics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&text=%E5%9B%9E%E8%B7%AF&display=swap" rel="stylesheet">
+<style>
+/* Concept: three gallery rooms, walked in order. Each wall label sits beside a live generative sketch that answers the pointer, so the page itself behaves like a feedback loop. */
+:root {
+  --bg: #e8eee9;
+  --bg2: #dbe5de;
+  --fg: #13201c;
+  --muted: #4b5f57;
+  --line: #b3c4ba;
+  --accent: #c81f5a;
+  --jade: #1f6a5d;
+  --display: "Bodoni Moda", "Didot", "Times New Roman", serif;
+  --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --cjk: "Noto Serif SC", "Songti SC", "SimSun", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b1412; --bg2: #111f1c; --fg: #e2ece7; --muted: #92aba1;
+    --line: #28423b; --accent: #ff5a92; --jade: #5ec4b0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b1412; --bg2: #111f1c; --fg: #e2ece7; --muted: #92aba1;
+  --line: #28423b; --accent: #ff5a92; --jade: #5ec4b0;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 1.0625rem/1.65 var(--body);
+  padding-inline: clamp(1rem, 4vw, 3rem);
+  padding-block: 0;
+  overflow-x: hidden;
+}
+.wrap { max-width: 1180px; margin-inline: auto; }
+a { color: inherit; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+h1, h2, h3, p, ul, figure { margin: 0; }
+.mono {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: clamp(26rem, 64vh, 40rem);
+  display: grid;
+  align-content: end;
+  gap: 1rem;
+  padding-block: 5rem 3rem;
+  overflow: hidden;
+}
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero > *:not(canvas) { position: relative; z-index: 1; pointer-events: none; }
+.eyebrow { color: var(--accent); }
+.title {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(3.6rem, 13.5vw, 10.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.18em;
+  text-wrap: balance;
+}
+.cjk {
+  font-family: var(--cjk);
+  font-style: normal;
+  font-weight: 900;
+  font-size: 0.82em;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent);
+  letter-spacing: 0;
+}
+.split span { display: inline-block; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; animation-delay: calc(var(--i) * 60ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(0.45em) rotate(5deg); } }
+.pinyin { font-family: var(--mono); font-size: 0.9rem; color: var(--muted); max-width: 34rem; }
+
+/* ---------- Statement ---------- */
+.statement {
+  display: grid;
+  grid-template-columns: minmax(0, 0.45fr) minmax(0, 1fr);
+  gap: 1.5rem 4rem;
+  padding-block: 4.5rem;
+}
+.statement p {
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+  line-height: 1.5;
+  max-width: 36em;
+  text-wrap: pretty;
+}
+
+/* ---------- Overview ---------- */
+.overview { padding-block: 1rem 5rem; }
+.overview > h2 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  margin-bottom: 2.25rem;
+}
+.ov-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem 3rem; }
+.ov h3 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  margin-block: 0.4rem 1.2rem;
+  text-wrap: balance;
+}
+.ov ul { list-style: none; padding: 0; display: grid; gap: 0.9rem; }
+.ov li { padding-left: 1rem; border-left: 2px solid var(--line); transition: border-color 0.25s; }
+.ov li:hover { border-color: var(--accent); }
+.ov li a { text-decoration: none; display: grid; }
+.ov li em { font-family: var(--display); font-size: 1.15rem; }
+.ov li span { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.04em; }
+
+/* ---------- Rooms ---------- */
+.room { padding-block: 1rem 3rem; }
+.room-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 1.5rem 4rem;
+  align-items: end;
+  padding-block: 4rem 2.5rem;
+  border-top: 1px solid var(--line);
+}
+.room-head .mono { color: var(--accent); display: block; margin-bottom: 0.75rem; }
+.room-head h2 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2.3rem, 5.4vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.room-head p { font-size: 1.15rem; max-width: 34em; }
+
+.work {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 1.5rem 3.5rem;
+  align-items: center;
+  padding-block: 2rem;
+}
+.work:nth-of-type(even) figure { order: 2; }
+.frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  max-width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.frame canvas,
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
+figcaption { margin-top: 0.6rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--muted); }
+.label { min-width: 0; display: grid; gap: 0.9rem; }
+.label h3 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.label .meta { color: var(--jade); }
+.label .artist { color: var(--muted); font-size: 0.98rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.label .artist span { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-right: 0.6rem; }
+
+/* ---------- Footer ---------- */
+footer {
+  margin-top: 3rem;
+  border-top: 1px solid var(--line);
+  padding-block: 2.5rem 3rem;
+}
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 3rem; }
+.foot > * { min-width: 0; }
+.foot strong { font-family: var(--display); font-style: italic; font-size: 1.5rem; font-weight: 700; display: block; }
+.foot p { color: var(--muted); font-size: 0.9rem; max-width: 30rem; }
+
+/* ---------- Reveal ---------- */
+.rv { transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.rv.pre { opacity: 0; transform: translateY(26px); }
+.rv.pre.in { opacity: 1; transform: none; }
+
+@media (max-width: 860px) {
+  .statement, .room-head, .work { grid-template-columns: minmax(0, 1fr); }
+  .ov-grid { grid-template-columns: minmax(0, 1fr); }
+  .work:nth-of-type(even) figure { order: 0; }
+  .hero { padding-block: 4rem 2.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .split span { animation: none; }
+  .rv { transition: none; }
+}
+
+/* ---------- Read more buttons ---------- */
+.more {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid var(--fg);
+  padding: 0.95rem 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  justify-self: start;
+  transition: color 0.3s, border-color 0.3s;
+}
+.more::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translateX(-101%);
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  z-index: -1;
+}
+.more .arr { display: inline-block; transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.more:hover, .more:focus-visible { color: var(--bg); border-color: var(--accent); }
+.more:hover::before, .more:focus-visible::before { transform: none; }
+.more:hover .arr, .more:focus-visible .arr { transform: translateX(5px); }
+.more:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- Dossier overlay ---------- */
+html.lock { overflow: hidden; }
+dialog.dlg {
+  --cx: 50%;
+  --cy: 50%;
+  --d0: 0.35s;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 1.0625rem/1.65 var(--body);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+dialog.dlg::backdrop { background: var(--bg); }
+dialog.dlg[open] { animation: iris-in 0.8s cubic-bezier(0.65, 0, 0.2, 1); }
+dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forwards; }
+@keyframes iris-in {
+  from { clip-path: circle(0 at var(--cx) var(--cy)); }
+  to { clip-path: circle(150vmax at var(--cx) var(--cy)); }
+}
+@keyframes iris-out {
+  from { clip-path: circle(150vmax at var(--cx) var(--cy)); }
+  to { clip-path: circle(0 at var(--cx) var(--cy)); }
+}
+.st {
+  animation: dfade 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--d0, 0.35s) + var(--n, 0) * 70ms);
+}
+@keyframes dfade { from { opacity: 0; transform: translateY(20px); } }
+
+.dcol { max-width: 1180px; margin-inline: auto; padding-inline: clamp(1rem, 4vw, 3rem); }
+.dbar { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.dbar-in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.8rem;
+  padding-top: calc(0.8rem + env(safe-area-inset-top, 0px));
+}
+.dcrumb { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.more.dclose { padding: 0.7rem 0.95rem; }
+.more.dclose:hover .arr, .more.dclose:focus-visible .arr { transform: rotate(90deg); }
+
+.dhead { position: relative; display: grid; gap: 0.9rem; padding-block: 3.5rem 2.5rem; }
+.dhead > *:not(.dnum) { position: relative; z-index: 1; }
+.dnum {
+  position: absolute;
+  right: 0;
+  top: 1rem;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(6rem, 22vw, 16rem);
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent);
+  pointer-events: none;
+  user-select: none;
+}
+.deyebrow { color: var(--accent); }
+.dtitle {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 7vw, 5.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  max-width: 13em;
+}
+.dmeta { color: var(--jade); }
+.dlead { padding-bottom: 3rem; }
+.dlead .frame { aspect-ratio: 16 / 7; }
+
+.dgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.36fr) minmax(0, 1fr);
+  gap: 2.5rem 4.5rem;
+  align-items: start;
+  padding-bottom: 4rem;
+}
+.dfacts { position: sticky; top: 5.5rem; display: grid; gap: 1.5rem; min-width: 0; }
+.dfacts dl { margin: 0; }
+.dfacts dl > div { display: grid; gap: 0.2rem; padding-block: 0.85rem; border-top: 1px solid var(--line); }
+.dfacts dt { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.dfacts dd { margin: 0; overflow-wrap: anywhere; }
+.tba { color: var(--muted); font-style: italic; }
+.dportrait .frame { aspect-ratio: 3 / 4; }
+
+.dtext { min-width: 0; max-width: 40rem; display: grid; gap: 1.1rem; }
+.dtext h3 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  margin-top: 1.2rem;
+}
+.dtext h3:first-child { margin-top: 0; }
+.dtext p { line-height: 1.7; text-wrap: pretty; }
+.dquote { margin: 1.2rem 0; padding-top: 1.2rem; border-top: 1px solid var(--line); display: grid; gap: 0.8rem; }
+.dquote p { font-family: var(--display); font-style: italic; font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.25; text-wrap: balance; }
+.dquote cite { font-family: var(--mono); font-style: normal; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.dlist { list-style: none; margin: 0; padding: 0; }
+.dlist li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; padding-block: 0.8rem; border-top: 1px solid var(--line); }
+
+.dgal-h { margin-bottom: 1.25rem; }
+.gal { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 1.25rem; align-items: end; padding-bottom: 4rem; }
+.gal figure { min-width: 0; }
+.gal figure:nth-child(1) .frame { aspect-ratio: 3 / 4; }
+.gal figure:nth-child(2) .frame { aspect-ratio: 4 / 3; }
+.gal figure:nth-child(3) .frame { aspect-ratio: 1 / 1; }
+
+.dabout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.36fr) minmax(0, 1fr);
+  gap: 1rem 4.5rem;
+  border-top: 1px solid var(--line);
+  padding-block: 2rem 4rem;
+}
+.dabout > h3 { color: var(--accent); }
+
+.dnav-in { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 3rem; padding-block: 2.5rem 4rem; border-top: 1px solid var(--line); }
+.dnav-in button {
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  padding: 0;
+  color: var(--fg);
+  font: inherit;
+  text-align: left;
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  cursor: pointer;
+  min-width: 0;
+}
+.dnav-in .next { text-align: right; justify-items: end; }
+.dnav-in .t {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  line-height: 1.1;
+  text-wrap: balance;
+  transition: color 0.25s;
+}
+.dnav-in button:hover .t, .dnav-in button:focus-visible .t { color: var(--accent); }
+.dnav-in button:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+
+@media (max-width: 860px) {
+  .dgrid, .dabout { grid-template-columns: minmax(0, 1fr); }
+  .dfacts { position: static; }
+  .gal { grid-template-columns: minmax(0, 1fr); }
+  .gal figure:nth-child(1) .frame, .gal figure:nth-child(2) .frame, .gal figure:nth-child(3) .frame { aspect-ratio: 4 / 3; }
+  .dlead .frame { aspect-ratio: 4 / 3; }
+  .dportrait .frame { aspect-ratio: 4 / 5; }
+  .dnum { font-size: 4.5rem; top: 0.5rem; opacity: 0.8; }
+  .dhead { padding-block: 2.5rem 2rem; }
+}
+@media (max-width: 560px) {
+  .dnav-in { grid-template-columns: minmax(0, 1fr); }
+  .dnav-in .next { text-align: left; justify-items: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.dlg[open], dialog.dlg.closing, .st { animation: none; }
+  .more::before, .more .arr { transition: none; }
+}
+
+</style>
+
+<!-- [TEXT] HERO: the first screen of the page (small label, big title, small line underneath). -->
+<header class="hero wrap" id="top">
+  <canvas id="hero" data-kind="hero" aria-hidden="true"></canvas>
+  <p class="mono eyebrow">Exhibition concept · Chinese cybernetic art</p>
+  <!-- [TEXT] BIG TITLE: change the words inside <span class="split">. The outlined 回路 (huílù) is its own <span class="cjk">; edit or delete it as you like. -->
+  <h1 class="title"><span class="cjk" aria-hidden="true">回路</span><span class="split">Modern Chinese Cybernetics</span></h1>
+  <!-- [TEXT] small line under the title -->
+  <p class="pinyin">huílù · a circuit, a loop, a route that comes back</p>
+</header>
+
+<main class="wrap">
+  <!-- [TEXT] CURATORIAL STATEMENT: edit the two <p> paragraphs below. -->
+  <section class="statement rv" aria-labelledby="st-h">
+    <h2 class="mono" id="st-h">Curatorial statement</h2>
+    <p>In 1960s and 70s China, cybernetics offered a distinctly political vision of the relationship between humans and machines. The “Cyber Great Leap Forward” imagined technology not simply as a force of automation, but as part of a feedback loop in which workers and machines continually shaped one another. Workers were expected to contribute their knowledge and creativity to technological development, while technology would in turn expand human capabilities. This vision positioned cybernetics as a collective project: technology was supposed to increase human agency rather than replace it or concentrate it in a technical elite. </p>
+    </br>  
+    <p>Contemporary Chinese and Chinese-diasporic artists revisit this relationship under very different technological conditions. Their works ask what happens when humans no longer simply use machines, but participate in systems that observe, learn from, respond to, and sometimes control them. From Miao Ying’s exploration of internet censorship and digital platforms, to Sougwen Chung’s collaborations with learning machines, Vivian Xu’s feedback between radiation, machinery, and material decay, and Cao Fei’s workers negotiating industrial production with personal expression, these artists reveal technology as a system of relationships rather than a neutral tool. Together, the works reconsider the promise of cybernetics: when humans and machines enter a feedback loop, who is actually shaping whom?</p>
+  </section>
+
+  <!-- [TEXT] OVERVIEW: lists each room and its artworks. If you rename a room, artwork or artist, edit it here too. Leave each href="#w-..." as it is: it jumps to the matching [ARTWORK] block. -->
+  <section class="overview rv" aria-labelledby="ov-h">
+    <h2 id="ov-h">In the exhibition</h2>
+    <div class="ov-grid">
+      <div class="ov">
+        <span class="mono">Room I</span>
+        <h3>Modern Chinese Society through Cybernetic Art</h3>
+        <ul>
+          <li><a href="#w-matchmaking"><em>Past Matchmaking Norms and Their Influence</em><span>Liu Dao (六岛)</span></a></li>
+          <li><a href="#w-detox"><em>Hardcore Digital Detox</em><span>Miao Ying</span></a></li>
+          <li><a href="#w-utopia"><em>Whose Utopia?</em><span>Cao Fei</span></a></li>
+        </ul>
+      </div>
+      <div class="ov">
+        <span class="mono">Room II</span>
+        <h3>Cybernetics in Today's Human-technology Interactions</h3>
+        <ul>
+          <li><a href="#w-memory"><em>MEMORY: Drawing Operations Unit: Gen 2</em><span>Sougwen Chung</span></a></li>
+          <li><a href="#w-duchamp"><em>Cybernetic Duchamp</em><span>London Tsai</span></a></li>
+          <li><a href="#w-living"><em>Living Distance</em><span>Xin Liu</span></a></li>
+          <li><a href="#w-horologic"><em>Horologic Hysteros</em><span>Vivian Xu</span></a></li>
+        </ul>
+      </div>
+      <div class="ov">
+        <span class="mono">Room III</span>
+        <h3>Cybernetics in the Age of AI</h3>
+        <ul>
+          <li><a href="#w-cry"><em>I've Seen You Cry in the Rain</em><span>Chen Baoyang</span></a></li>
+          <li><a href="#w-doku"><em>DOKU the Self</em><span>Lu Yang</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Room I -->
+  <!-- [TEXT] ROOM 1: edit the <h2> title and the <p> intro paragraph inside <div class="room-head"> just below. The artworks of this room follow it. -->
+  <section class="room" id="room1" aria-labelledby="r1-h">
+    <div class="room-head rv">
+      <div>
+        <span class="mono">Room I</span>
+        <h2 id="r1-h">Modern Chinese Society through Cybernetic Art</h2>
+      </div>
+      <p>In these works the artists examine modern Chinese society through cybernetic art. Reevaluating Chinese traditions, internet culture and industrial labor, they comment on societal issues and try to imagine a path forward for China.</p>
+    </div>
+
+    <!-- ====== [ARTWORK] Past Matchmaking Norms and Their Influence · Liu Dao (六岛) (Room I) ====== -->
+    <article class="work rv" id="w-matchmaking">
+      <figure>
+        <div class="frame">
+          <!-- [IMAGE] main picture of this artwork. Put your file in the images folder and set src to it, e.g. src="images/matchmaking.jpg" (this replaces the web link). -->
+          <img data-fb="mirror" src="https://cdn.myportfolio.com/f13d2a117beeb1139d3eb5c88fc297d4/91cf9047-f50c-41ca-ac1b-528b46dc3edb_rw_1200.gif?h=b3f5abb3d8969d377287fd09aca05b78" alt="Past Matchmaking Norms and Their Influence by Liu Dao" loading="lazy">
+        </div>
+        <!-- [TEXT] caption under the picture -->
+        <figcaption>Documentation image · Liu Dao (六岛)</figcaption>
+      </figure>
+      <div class="label">
+        <!-- [TEXT] artwork title -->
+        <h3>Past Matchmaking Norms and Their Influence</h3>
+        <!-- [TEXT] details line: artist · year · medium -->
+        <p class="mono meta">Liu Dao (六岛) · LED interactive installation, mixed media</p>
+        <!-- [TEXT] description of the artwork (copy a whole <p>...</p> line to add another paragraph) -->
+        <p>Liu Dao (六岛), the in-house art collective at Shanghai’s island6 Arts Center, produces LED light sculptures and interactive installations that bridge traditional Chinese visual motifs with cutting-edge technology. This work engages with the persistence of matchmaking customs in contemporary China, where parents gather in public parks to advertise their unmarried children — a practice that has migrated from village matchmakers to urban “marriage markets.” The collective renders this social ritual through illuminated, sensor-driven surfaces that respond to the presence of viewers.</p>
+        <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-matchmaking (search for it further down). -->
+        <button type="button" class="more" data-open="matchmaking" aria-haspopup="dialog" aria-label="Read more about Past Matchmaking Norms and Their Influence"><span>Read more</span><span class="arr" aria-hidden="true">→</span></button>
+        <!-- [TEXT] artist line -->
+        <p class="artist"><span>Artist</span>Liu Dao is a Shanghai-based collective founded in 2006, known for interactive LED installations that blend traditional Chinese imagery with new media.</p>
+      </div>
+    </article>
+
+    <!-- ====== [ARTWORK] Hardcore Digital Detox · Miao Ying (Room I) ====== -->
+    <article class="work rv" id="w-detox">
+      <figure>
+        <div class="frame">
+          <!-- Replace the src below with the URL of your uploaded image -->
+          <!-- [IMAGE] main picture of this artwork. Put your file in the images folder and set src to it, e.g. src="images/detox.jpg" (this replaces the web link). -->
+          <img data-fb="pixels" src="https://digicult.it/wp-content/uploads/2019/02/Detox2.jpg" alt="Hardcore Digital Detox by Miao Ying" loading="lazy">
+        </div>
+        <!-- [TEXT] caption under the picture -->
+        <figcaption>Documentation image · Miao Ying</figcaption>
+      </figure>
+      <div class="label">
+        <!-- [TEXT] artwork title -->
+        <h3>Hardcore Digital Detox</h3>
+        <!-- [TEXT] details line: artist · year · medium -->
+        <p class="mono meta">Miao Ying · 2018 · Browser-based net art, interactive web collage</p>
+        <!-- [TEXT] description of the artwork (copy a whole <p>...</p> line to add another paragraph) -->
+        <p>Miao Ying’s <em>Hardcore Digital Detox</em> parodies the digital wellness industry by presenting the Chinese internet — with its blocks on Google, Facebook, and other services — as a relaxing online retreat. Commissioned by M+ Museum Hong Kong as the first work in their digital commissions series, the piece takes the form of a long scrolling webpage with eleven slides of bilingual text, rendered in a deliberately ugly late-1990s/early-2000s web aesthetic: low-resolution GIFs, PowerPoint-style transitions, and clashing colors. The work is a playful yet pointed reflection on global capitalism, online propaganda, and media democracy.</p>
+        <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-detox (search for it further down). -->
+        <button type="button" class="more" data-open="detox" aria-haspopup="dialog" aria-label="Read more about Hardcore Digital Detox"><span>Read more</span><span class="arr" aria-hidden="true">→</span></button>
+        <!-- [TEXT] artist line -->
+        <p class="artist"><span>Artist</span>Miao Ying (b. 1985, Shanghai) is a Chinese artist known for net art and writing that explores internet censorship and digital culture.</p>
+      </div>
+    </article>
+
+    <!-- ====== [ARTWORK] Whose Utopia? · Cao Fei (Room I) ====== -->
+    <article class="work rv" id="w-utopia">
+      <figure>
+        <div class="frame">
+          <!-- [IMAGE] main picture of this artwork. Put your file in the images folder and set src to it, e.g. src="images/utopia.jpg" (this replaces the web link). -->
+          <img data-fb="avatar" src="https://www.guggenheim.org/wp-content/uploads/2006/01/2007.130_cu_web-1.jpg" alt="Whose Utopia? by Cao Fei" loading="lazy">
+        </div>
+        <!-- [TEXT] caption under the picture -->
+        <figcaption>Documentation image · Cao Fei</figcaption>
+      </figure>
+      <div class="label">
+        <!-- [TEXT] artwork title -->
+        <h3>Whose Utopia?</h3>
+        <!-- [TEXT] details line: artist · year · medium -->
+        <p class="mono meta">Cao Fei · 2006 · Video (color, sound), 20:20 min</p>
+        <!-- [TEXT] description of the artwork (copy a whole <p>...</p> line to add another paragraph) -->
+        <p>Shot during a six-month residency at the OSRAM lighting factory in the Pearl River Delta, <em>Whose Utopia?</em> consists of three parts and illuminates the human workforce behind one of the world’s largest light bulb manufacturers. Cao Fei documented the factory’s production processes and collaborated with workers to stage performances — dancing, playing guitar, wearing costumes — within the facility. Her aim was to “release the workers from a standardized notion of productivity,” transforming a space of highly controlled movement into one of play and self-expression.</p>
+        <!-- [TEXT] artist line -->
+        <p class="artist"><span>Artist</span>Cao Fei (b. 1978, Guangzhou) is a multimedia artist whose work explores China’s rapid social and cultural transformation.</p>
+        <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-utopia (search for it further down). -->
+        <button type="button" class="more" data-open="utopia" aria-haspopup="dialog" aria-label="More by Cao Fei: Asia One"><span>More by Cao Fei</span><span class="arr" aria-hidden="true">→</span></button>
+      </div>
+    </article>
+  </section>
+
+  <!-- Room II -->
+  <!-- [TEXT] ROOM 2: edit the <h2> title and the <p> intro paragraph inside <div class="room-head"> just below. The artworks of this room follow it. -->
+  <section class="room" id="room2" aria-labelledby="r2-h">
+    <div class="room-head rv">
+      <div>
+        <span class="mono">Room II</span>
+        <h2 id="r2-h">Cybernetics in Today's Human-technology Interactions</h2>
+      </div>
+      <p>In these works, technology becomes more than a tool: it learns from the human hand, registers invisible processes, moves through mathematical systems, and carries fragments of the body beyond its limits. A robot draws from an artist’s memory; radiation becomes sound as a machine records its own decay; sculpture turns computation and movement into physical form; a tooth is sent into space as a proxy for its owner. Across these encounters, the boundary between human and machine, living and nonliving, becomes unstable. Together, the works revisit cybernetics not simply as the control of machines, but as a way of understanding how humans and technological systems shape, remember, and transform one another.</p>
+    </div>
+
+    <!-- ====== [ARTWORK] MEMORY: Drawing Operations Unit: Gen 2 · Sougwen Chung (Room II) ====== -->
+    <article class="work rv" id="w-memory">
+      <figure>
+        <div class="frame">
+          <!-- [IMAGE] main picture of this artwork. Put your file in the images folder and set src to it, e.g. src="images/memory.jpg" (this replaces the web link). -->
+          <img data-fb="eyes" src="https://sougwen.com/wp-content/uploads/2026/04/sougwen-2026_recursions_01_photographer-reece-straw.jpg" alt="MEMORY: Drawing Operations Unit: Gen 2 by Sougwen Chung" loading="lazy">
+        </div>
+        <!-- [TEXT] caption under the picture -->
+        <figcaption>Documentation image · Sougwen Chung</figcaption>
+      </figure>
+      <div class="label">
+        <!-- [TEXT] artwork title -->
+        <h3>MEMORY: Drawing Operations Unit: Gen 2</h3>
+        <!-- [TEXT] details line: artist · year · medium -->
+        <p class="mono meta">Sougwen Chung · 2015 onward · Robotic arms, drawing, performance</p>
+        <!-- [TEXT] description of the artwork (copy a whole <p>...</p> line to add another paragraph) -->
+        <p>Sougwen Chung draws beside custom robotic arms, named D.O.U.G. (Drawing Operations Unit: Generation 2), that learn from her marks and answer in their own. Using machine learning to classify archives of her own drawings, Chung trains the robot to collaborate rather than merely replicate. Each performance becomes a conversation between a hand and a machine, exploring the mark-made-by-hand and the mark-made-by-machine as a way to understand the dynamics of humans and systems.</p>
+        <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-memory (search for it further down). -->
+        <button type="button" class="more" data-open="memory" aria-haspopup="dialog" aria-label="Read more about MEMORY: Drawing Operations Unit: Gen 2"><span>Read more</span><span class="arr" aria-hidden="true">→</span></button>
+        <!-- [TEXT] artist line -->
+        <p class="artist"><span>Artist</span>Sougwen Chung is a Chinese-Canadian artist and researcher known for pioneering human–machine collaboration in drawing and performance.</p>
+      </div>
+    </article>
+
+    <!-- ====== [ARTWORK] Cybernetic Duchamp · London Tsai (Room II) ====== -->
+    <article class="work rv" id="w-duchamp">
+      <figure>
+        <div class="frame">
+          <!-- [IMAGE] main picture of this artwork. Put your file in the images folder and set src to it, e.g. src="images/duchamp.jpg" (this replaces the web link). -->
+          <img data-fb="mesh" src="https://d3zr9vspdnjxi.cloudfront.net/sites/lond1947/fl/7579841_a-PAW5690-2-kopia.jpg?e4db13bc75e5271dd52edced6de034f3" alt="Cybernetic Duchamp by London Tsai" loading="lazy">
+        </div>
+        <!-- [TEXT] caption under the picture -->
+        <figcaption>Documentation image · London Tsai</figcaption>
+      </figure>
+      <div class="label">
+        <!-- [TEXT] artwork title -->
+        <h3>Cybernetic Duchamp</h3>
+        <!-- [TEXT] details line: artist · year · medium -->
+        <p class="mono meta">London Tsai · Kinetic sculpture, interactive cybernetic system</p>
+        <!-- [TEXT] description of the artwork (copy a whole <p>...</p> line to add another paragraph) -->
+        <p>London Tsai’s <em>Cybernetic Duchamp</em> responds to Marcel Duchamp’s <em>Bicycle Wheel</em> (1913), a conceptual anchor of contemporary art that suggests movement but stands completely still. Tsai, who grew up encountering the Duchamp piece at MoMA, decided to make not merely a kinetic version but a cybernetic one — a bicycle wheel with interactive chaotic instability. The work is an “instabile,” an unstable mobile that foregrounds the contrast between Duchamp’s static readymade and a system that actively responds to its environment.</p>
+        <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-duchamp (search for it further down). -->
+        <button type="button" class="more" data-open="duchamp" aria-haspopup="dialog" aria-label="Read more about Cybernetic Duchamp"><span>Read more</span><span class="arr" aria-hidden="true">→</span></button>
+        <!-- [TEXT] artist line -->
+        <p class="artist"><span>Artist</span>London Tsai is a Brooklyn-based artist working in kinetic and cybernetic sculpture.</p>
+      </div>
+    </article>
+
+    <!-- ====== [ARTWORK] Living Distance · Xin Liu (Room II) ====== -->
+    <article class="work rv" id="w-living">
+      <figure>
+        <div class="frame">
+          <!-- [IMAGE] main picture of this artwork. Put your file in the images folder and set src to it, e.g. src="images/living.jpg" (this replaces the web link). -->
+          <img data-fb="parcels" src="https://freight.cargo.site/w/2000/q/75/i/Q1789293046547504326410563270502/Living-Distance_1_Credit-Tim-Saputo--Xin-Liu.jpg" alt="Living Distance by Xin Liu" loading="lazy">
+        </div>
+        <!-- [TEXT] caption under the picture -->
+        <figcaption>Documentation image · Xin Liu</figcaption>
+      </figure>
+      <div class="label">
+        <!-- [TEXT] artwork title -->
+        <h3>Living Distance</h3>
+        <!-- [TEXT] details line: artist · year · medium -->
+        <p class="mono meta">Xin Liu · 2019–2020 · Two-channel video, VR installation, performance</p>
+        <!-- [TEXT] description of the artwork (copy a whole <p>...</p> line to add another paragraph) -->
+        <p><em>Living Distance</em> is a three-part project centered on the fantastical journey of Xin Liu’s wisdom tooth, which traveled aboard the International Space Station before returning to Earth. Carried by a crystalline robotic sculpture engineered by the artist (EBIFA — Everything Beautiful Is Far Away), the tooth metaphorically becomes a newborn entity as it enters infinite darkness. The work comprises a performance conducted in outer space, a two-channel video installation mixing documentary footage with dreamlike imagery, and a virtual reality experience that allows viewers to follow the tooth’s journey from a first-hand perspective.</p>
+        <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-living (search for it further down). -->
+        <button type="button" class="more" data-open="living" aria-haspopup="dialog" aria-label="Read more about Living Distance"><span>Read more</span><span class="arr" aria-hidden="true">→</span></button>
+        <!-- [TEXT] artist line -->
+        <p class="artist"><span>Artist</span>Xin Liu (b. 1991, Xinjiang) is an artist and engineer whose work explores the intersections of technology, nature, and human experience.</p>
+      </div>
+    </article>
+
+    <!-- ====== [ARTWORK] Horologic Hysteros · Vivian Xu (Room II) ====== -->
+    <article class="work rv" id="w-horologic">
+      <figure>
+        <div class="frame">
+          <!-- [IMAGE] main picture of this artwork. Put your file in the images folder and set src to it, e.g. src="images/horologic.jpg" (this replaces the web link). -->
+          <img data-fb="strokes" src="https://static.wixstatic.com/media/5af11b_f0f1b819a6da4b949d4bdb00d5f8958d~mv2.jpg/v1/fill/w_1960,h_1106,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Horologic%20Hysteros_1.jpg" alt="Horologic Hysteros by Vivian Xu and Benjamin Bacon" loading="lazy">
+        </div>
+        <!-- [TEXT] caption under the picture -->
+        <figcaption>Documentation image · Vivian Xu &amp; Benjamin Bacon</figcaption>
+      </figure>
+      <div class="label">
+        <!-- [TEXT] artwork title -->
+        <h3>Horologic Hysteros</h3>
+        <!-- [TEXT] details line: artist · year · medium -->
+        <p class="mono meta">Vivian Xu &amp; Benjamin Bacon · 2026 · Mixed-media installation: electronics, tape machines, magnetic tape, wood, stainless steel</p>
+        <!-- [TEXT] description of the artwork (copy a whole <p>...</p> line to add another paragraph) -->
+        <p><em>Horologic Hysteros</em> is the second installment in the Horologic Series, following <em>Horologic Solum</em>. The installation constructs a soundscape of industrial decay through recursive signal transfer: Geiger counter sensors capture radioactive emissions in the exhibition space, translating invisible environmental radiation into a foundational pulse; this signal feeds into a three-layer tape loop system, each layer cycling at its own interval; the tempo is not composed but extracted from the frequency of radioactive decay events; and as the tape loops, the physical degradation of the medium becomes audible, with each pass sampling the previous and accumulating generations of signal degradation. The machine ultimately inscribes its own history on paper. The work was commissioned by the Power Station of Art for the <em>Techno Worlds: Final Sampling</em> exhibition.</p>
+        <!-- [TEXT] artist line -->
+        <p class="artist"><span>Artist</span>Vivian Xu is a media artist and Assistant Professor at Duke Kunshan University whose work explores bio and electronic media.</p>
+        <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-horologic (search for it further down). -->
+        <button type="button" class="more" data-open="horologic" aria-haspopup="dialog" aria-label="More by Vivian Xu: Horologic Solum"><span>More by Vivian Xu</span><span class="arr" aria-hidden="true">→</span></button>
+      </div>
+    </article>
+  </section>
+
+  <!-- Room III -->
+  <!-- [TEXT] ROOM 3: edit the <h2> title and the <p> intro paragraph inside <div class="room-head"> just below. The artworks of this room follow it. -->
+  <section class="room" id="room3" aria-labelledby="r3-h">
+    <div class="room-head rv">
+      <div>
+        <span class="mono">Room III</span>
+        <h2 id="r3-h">Cybernetics in the Age of AI</h2>
+      </div>
+      <p>Artificial intelligence transforms cybernetics from a science of steering into a science of learning systems that generate, imagine, and sometimes exceed their makers. These works explore what happens when algorithms become creative collaborators, when digital avatars carry the self through cycles of reincarnation, and when machine perception mediates our relationship to the world. The feedback loop here is not only technical but existential: as AI systems learn from us, they also reshape what it means to be human.</p>
+    </div>
+
+    <!-- ====== [ARTWORK] I've Seen You Cry in the Rain · Chen Baoyang (Room III) ====== -->
+    <article class="work rv" id="w-cry">
+      <figure>
+        <div class="frame">
+          <!-- [IMAGE] main picture of this artwork. Put your file in the images folder and set src to it, e.g. src="images/cry.jpg" (this replaces the web link). -->
+          <img data-fb="land" src="https://www.artmacao.mo/collectionContent/artexhibition/2021/images/art/369/203730Img.png" alt="I've Seen You Cry in the Rain by Chen Baoyang" loading="lazy">
+        </div>
+        <!-- [TEXT] caption under the picture -->
+        <figcaption>Documentation image · Chen Baoyang</figcaption>
+      </figure>
+      <div class="label">
+        <!-- [TEXT] artwork title -->
+        <h3>I've Seen You Cry in the Rain</h3>
+        <!-- [TEXT] details line: artist · year · medium -->
+        <p class="mono meta">Chen Baoyang · AI and robotics installation</p>
+        <!-- [TEXT] description of the artwork (copy a whole <p>...</p> line to add another paragraph) -->
+        <p>Chen Baoyang works at the intersection of art and technology, treating AI and robotics not merely as tools but as collaborators. His installations give computational systems a physical presence, making machine behaviour perceptible through movement and space. <em>I’ve Seen You Cry in the Rain</em> extends this practice into affective territory, exploring how machines might register and respond to human emotion — or fail to. The work asks whether an AI can truly “see” a tear in the rain, or whether that metaphor belongs only to us.</p>
+        <!-- [TEXT] artist line -->
+        <p class="artist"><span>Artist</span>Chen Baoyang (b. 1989, Hangzhou) is an artist and curator exploring AI and robotics as creative collaborators.</p>
+        <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-cry (search for it further down). -->
+        <button type="button" class="more" data-open="cry" aria-haspopup="dialog" aria-label="More by Chen Baoyang: De Shan Shui"><span>More by Chen Baoyang</span><span class="arr" aria-hidden="true">→</span></button>
+      </div>
+    </article>
+
+    <!-- ====== [ARTWORK] DOKU the Self · Lu Yang (Room III) ====== -->
+    <article class="work rv" id="w-doku">
+      <figure>
+        <div class="frame">
+          <!-- [IMAGE] main picture of this artwork. Put your file in the images folder and set src to it, e.g. src="images/doku.jpg" (this replaces the web link). -->
+          <img data-fb="mandala" src="https://esc.mur.at/sites/escmedienkunstlabor.mur.at/files/styles/werk_hauptbild_3_2/public/werk_bilder/hg_zugeschnitten_web_0.jpg?itok=byIO-632" alt="DOKU the Self by Lu Yang" loading="lazy">
+        </div>
+        <!-- [TEXT] caption under the picture -->
+        <figcaption>Documentation image · Lu Yang</figcaption>
+      </figure>
+      <div class="label">
+        <!-- [TEXT] artwork title -->
+        <h3>DOKU the Self</h3>
+        <!-- [TEXT] details line: artist · year · medium -->
+        <p class="mono meta">Lu Yang · 2022 · Single-channel video, 36 min · Digital avatar, motion capture, real-time rendering</p>
+        <!-- [TEXT] description of the artwork (copy a whole <p>...</p> line to add another paragraph) -->
+        <p>The DOKU series gives the artist a digital double that can be rendered, animated and handed to other people. It raises a plain question: what stays yours once your image becomes software? <em>DOKU the Self</em> is Lu Yang’s first narrative film in the ongoing DOKU series, premiered at the 59th Venice Biennale. Following a near-death experience in an airplane crash, DOKU journeys through six reincarnations from vengeful shaman to terrified passenger, cycling through death and rebirth in a journey through Buddhist cosmology toward the dissolution of essence.</p>
+        <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-doku (search for it further down). -->
+        <button type="button" class="more" data-open="doku" aria-haspopup="dialog" aria-label="Read more about DOKU the Self"><span>Read more</span><span class="arr" aria-hidden="true">→</span></button>
+        <!-- [TEXT] artist line -->
+        <p class="artist"><span>Artist</span>Lu Yang (b. 1984, Shanghai) is an artist whose work draws on neuroscience, Buddhist imagery, and game culture.</p>
+      </div>
+    </article>
+  </section>
+</main>
+
+<!-- [TEXT] FOOTER: the name, the small line and the note on the right. -->
+<footer>
+  <div class="foot wrap">
+    <div>
+      <strong>Cybernetics with Chinese Characteristics</strong>
+      <span class="mono">Chinese cybernetic art</span>
+    </div>
+    <p>Venue and dates to be announced. This is an exhibition concept. Generative sketches stand in for documentation images and should be replaced with licensed photographs of each work.</p>
+  </div>
+</footer>
+
+
+<!-- ======================================================================
+     [DOSSIER] d-matchmaking: Past Matchmaking Norms and Their Influence
+     Opens from the "Read more" button on the main page (Room I).
+     data-nav on the template line below is the name shown in the Previous / Next links at the bottom of the pop-up.
+     [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
+     [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
+     ====================================================================== -->
+<template id="d-matchmaking" data-nav="Past Matchmaking Norms and Their Influence">
+  <div class="dossier">
+
+    <header class="dhead st">
+      <span class="dnum" aria-hidden="true">I</span> <!-- big outlined room numeral -->
+      <p class="mono deyebrow">Room I · Artwork</p> <!-- [TEXT] small label above the title -->
+      <h2 class="dtitle" id="dlg-title">Past Matchmaking Norms and Their Influence</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">Liu Dao (六岛) · LED interactive installation, mixed media</p> <!-- [TEXT] one-line details under the title -->
+    </header>
+
+    <figure class="dlead st">
+      <div class="frame">
+        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+        <img src="images/matchmaking-lead.jpg" alt="Describe the picture for screen readers">
+      </div>
+      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+    </figure>
+
+    <div class="dgrid">
+      <aside class="dfacts st" aria-label="Details">
+        <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
+        <dl>
+          <div><dt>Artist</dt><dd>Liu Dao (六岛)</dd></div>
+          <div><dt>Year</dt><dd><span class="tba">2024</span></dd></div>
+          <div><dt>Medium</dt><dd>LED interactive installation, mixed media</dd></div>
+          <div><dt>Dimensions</dt><dd><span class="tba">117(W)×117(H)×21(D) cm // 61.8 kg</span></dd></div>
+          <div><dt>Courtesy</dt><dd><span class="tba">Yang Suer 杨素儿 (performance) • Shengqiu Li 李生秋 (calligraphy) • Helen Chen 陈韵涵 (art direction) • Thomas Charvériat (art direction) • Yeung Sin Ching 杨倩菁 (production supervisor) • Tiara Alvarado-Leon (blurb)</span></dd></div>
+        </dl>
+      </aside>
+
+      <div class="dtext st">
+        <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
+        <h3>About the work</h3>
+        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
+        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+
+        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
+        <blockquote class="dquote">
+          <p>"Before dating apps, there were lists. At Shanghai’s People’s Square, parents once exchanged information about their children in the hope of finding a suitable match. Age, education, occupation, income, height, and other details became the language of compatibility. A human algorithm, shaped by family expectations and social convention. What happens when the rules of matchmaking outlive the world that created them?”</p>
+        </blockquote>
+
+        <h3>Process</h3>
+        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <h3>Context</h3>
+        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+      </div>
+    </div>
+
+    <section class="st">
+      <h3 class="mono dgal-h">More images</h3> <!-- [TEXT] heading above the gallery -->
+      <div class="gal">
+        <!-- [IMAGE] GALLERY: laid out for 3 pictures (portrait, landscape, square). A 4th picture starts a new row. -->
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/matchmaking-2.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="eyes" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/matchmaking-3.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="parcels" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/matchmaking-4.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="land" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="dabout st">
+      <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
+      <div class="dtext">
+        <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
+        <p>Liu Dao is a Shanghai-based collective founded in 2006, known for interactive LED installations that blend traditional Chinese imagery with new media.</p>
+        <p>Placeholder text. A longer note on the artist can continue here.</p>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<!-- ======================================================================
+     [DOSSIER] d-detox: Hardcore Digital Detox
+     Opens from the "Read more" button on the main page (Room I).
+     data-nav on the template line below is the name shown in the Previous / Next links at the bottom of the pop-up.
+     [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
+     [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
+     ====================================================================== -->
+<template id="d-detox" data-nav="Hardcore Digital Detox">
+  <div class="dossier">
+
+    <header class="dhead st">
+      <span class="dnum" aria-hidden="true">I</span> <!-- big outlined room numeral -->
+      <p class="mono deyebrow">Room I · Artwork</p> <!-- [TEXT] small label above the title -->
+      <h2 class="dtitle" id="dlg-title">Hardcore Digital Detox</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">Miao Ying · 2018 · Browser-based net art, interactive web collage</p> <!-- [TEXT] one-line details under the title -->
+    </header>
+
+    <figure class="dlead st">
+      <div class="frame">
+        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+        <!-- <img src="images/detox-lead.jpg" alt="Describe the picture for screen readers"> -->
+        <canvas data-kind="pixels" aria-hidden="true"></canvas>
+      </div>
+      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+    </figure>
+
+    <div class="dgrid">
+      <aside class="dfacts st" aria-label="Details">
+        <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
+        <dl>
+          <div><dt>Artist</dt><dd>Miao Ying</dd></div>
+          <div><dt>Year</dt><dd>2018</dd></div>
+          <div><dt>Medium</dt><dd>Browser-based net art, interactive web collage</dd></div>
+          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+        </dl>
+      </aside>
+
+      <div class="dtext st">
+        <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
+        <h3>About the work</h3>
+        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
+        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+
+        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
+        <blockquote class="dquote">
+          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
+          <cite>Name · Source · Year</cite>
+        </blockquote>
+
+        <h3>Process</h3>
+        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <h3>Context</h3>
+        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+      </div>
+    </div>
+
+    <section class="st">
+      <h3 class="mono dgal-h">More images</h3> <!-- [TEXT] heading above the gallery -->
+      <div class="gal">
+        <!-- [IMAGE] GALLERY: laid out for 3 pictures (portrait, landscape, square). A 4th picture starts a new row. -->
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/detox-2.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="mesh" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/detox-3.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="strokes" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/detox-4.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="mandala" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="dabout st">
+      <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
+      <div class="dtext">
+        <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
+        <p>Miao Ying (b. 1985, Shanghai) is a Chinese artist known for net art and writing that explores internet censorship and digital culture.</p>
+        <p>Placeholder text. A longer note on the artist can continue here.</p>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<!-- ======================================================================
+     [DOSSIER] d-utopia: Asia One
+     Opens from the "More by Cao Fei" button on the main page (Room I).
+     data-nav on the template line below is the name shown in the Previous / Next links at the bottom of the pop-up.
+     [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
+     [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
+     ====================================================================== -->
+<template id="d-utopia" data-nav="Asia One, related work">
+  <div class="dossier">
+
+    <header class="dhead st">
+      <span class="dnum" aria-hidden="true">I</span> <!-- big outlined room numeral -->
+      <p class="mono deyebrow">Room I · Related work</p> <!-- [TEXT] small label above the title -->
+      <h2 class="dtitle" id="dlg-title">Asia One</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">Cao Fei · 2018 · Video</p> <!-- [TEXT] one-line details under the title -->
+    </header>
+
+    <figure class="dlead st">
+      <div class="frame">
+        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+        <!-- <img src="images/utopia-related-lead.jpg" alt="Describe the picture for screen readers"> -->
+        <canvas data-kind="avatar" aria-hidden="true"></canvas>
+      </div>
+      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+    </figure>
+
+    <div class="dgrid">
+      <aside class="dfacts st" aria-label="Details">
+        <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
+        <dl>
+          <div><dt>Artist</dt><dd>Cao Fei</dd></div>
+          <div><dt>Year</dt><dd>2018</dd></div>
+          <div><dt>Medium</dt><dd>Video</dd></div>
+          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Related to</dt><dd>Whose Utopia?</dd></div>
+        </dl>
+      </aside>
+
+      <div class="dtext st">
+        <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
+        <h3>About the work</h3>
+        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
+        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+
+        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
+        <blockquote class="dquote">
+          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
+          <cite>Name · Source · Year</cite>
+        </blockquote>
+
+        <h3>Process</h3>
+        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <h3>Connection to Whose Utopia?</h3>
+        <p>Placeholder text. Explain how this work complements Whose Utopia? in this room: a shared theme, a contrasting method, or the next step in the artist’s thinking.</p>
+      </div>
+    </div>
+
+    <section class="st">
+      <h3 class="mono dgal-h">More images</h3> <!-- [TEXT] heading above the gallery -->
+      <div class="gal">
+        <!-- [IMAGE] GALLERY: laid out for 3 pictures (portrait, landscape, square). A 4th picture starts a new row. -->
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/utopia-related-2.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="parcels" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/utopia-related-3.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="land" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/utopia-related-4.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="mirror" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="dabout st">
+      <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
+      <div class="dtext">
+        <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
+        <p>Cao Fei (b. 1978, Guangzhou) is a multimedia artist whose work explores China’s rapid social and cultural transformation.</p>
+        <p>Placeholder text. A longer note on the artist can continue here.</p>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<!-- ======================================================================
+     [DOSSIER] d-memory: MEMORY: Drawing Operations Unit: Gen 2
+     Opens from the "Read more" button on the main page (Room II).
+     data-nav on the template line below is the name shown in the Previous / Next links at the bottom of the pop-up.
+     [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
+     [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
+     ====================================================================== -->
+<template id="d-memory" data-nav="MEMORY: Drawing Operations Unit: Gen 2">
+  <div class="dossier">
+
+    <header class="dhead st">
+      <span class="dnum" aria-hidden="true">II</span> <!-- big outlined room numeral -->
+      <p class="mono deyebrow">Room II · Artwork</p> <!-- [TEXT] small label above the title -->
+      <h2 class="dtitle" id="dlg-title">MEMORY: Drawing Operations Unit: Gen 2</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">Sougwen Chung · 2015 onward · Robotic arms, drawing, performance</p> <!-- [TEXT] one-line details under the title -->
+    </header>
+
+    <figure class="dlead st">
+      <div class="frame">
+        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+        <!-- <img src="images/memory-lead.jpg" alt="Describe the picture for screen readers"> -->
+        <canvas data-kind="eyes" aria-hidden="true"></canvas>
+      </div>
+      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+    </figure>
+
+    <div class="dgrid">
+      <aside class="dfacts st" aria-label="Details">
+        <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
+        <dl>
+          <div><dt>Artist</dt><dd>Sougwen Chung</dd></div>
+          <div><dt>Year</dt><dd>2015 onward</dd></div>
+          <div><dt>Medium</dt><dd>Robotic arms, drawing, performance</dd></div>
+          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+        </dl>
+      </aside>
+
+      <div class="dtext st">
+        <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
+        <h3>About the work</h3>
+        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
+        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+
+        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
+        <blockquote class="dquote">
+          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
+          <cite>Name · Source · Year</cite>
+        </blockquote>
+
+        <h3>Process</h3>
+        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <h3>Context</h3>
+        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+      </div>
+    </div>
+
+    <section class="st">
+      <h3 class="mono dgal-h">More images</h3> <!-- [TEXT] heading above the gallery -->
+      <div class="gal">
+        <!-- [IMAGE] GALLERY: laid out for 3 pictures (portrait, landscape, square). A 4th picture starts a new row. -->
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/memory-2.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="strokes" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/memory-3.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="mandala" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/memory-4.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="pixels" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="dabout st">
+      <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
+      <div class="dtext">
+        <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
+        <p>Sougwen Chung is a Chinese-Canadian artist and researcher known for pioneering human–machine collaboration in drawing and performance.</p>
+        <p>Placeholder text. A longer note on the artist can continue here.</p>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<!-- ======================================================================
+     [DOSSIER] d-duchamp: Cybernetic Duchamp
+     Opens from the "Read more" button on the main page (Room II).
+     data-nav on the template line below is the name shown in the Previous / Next links at the bottom of the pop-up.
+     [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
+     [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
+     ====================================================================== -->
+<template id="d-duchamp" data-nav="Cybernetic Duchamp">
+  <div class="dossier">
+
+    <header class="dhead st">
+      <span class="dnum" aria-hidden="true">II</span> <!-- big outlined room numeral -->
+      <p class="mono deyebrow">Room II · Artwork</p> <!-- [TEXT] small label above the title -->
+      <h2 class="dtitle" id="dlg-title">Cybernetic Duchamp</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">London Tsai · Kinetic sculpture, interactive cybernetic system</p> <!-- [TEXT] one-line details under the title -->
+    </header>
+
+    <figure class="dlead st">
+      <div class="frame">
+        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+        <!-- <img src="images/duchamp-lead.jpg" alt="Describe the picture for screen readers"> -->
+        <canvas data-kind="mesh" aria-hidden="true"></canvas>
+      </div>
+      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+    </figure>
+
+    <div class="dgrid">
+      <aside class="dfacts st" aria-label="Details">
+        <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
+        <dl>
+          <div><dt>Artist</dt><dd>London Tsai</dd></div>
+          <div><dt>Year</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Medium</dt><dd>Kinetic sculpture, interactive cybernetic system</dd></div>
+          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+        </dl>
+      </aside>
+
+      <div class="dtext st">
+        <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
+        <h3>About the work</h3>
+        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
+        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+
+        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
+        <blockquote class="dquote">
+          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
+          <cite>Name · Source · Year</cite>
+        </blockquote>
+
+        <h3>Process</h3>
+        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <h3>Context</h3>
+        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+      </div>
+    </div>
+
+    <section class="st">
+      <h3 class="mono dgal-h">More images</h3> <!-- [TEXT] heading above the gallery -->
+      <div class="gal">
+        <!-- [IMAGE] GALLERY: laid out for 3 pictures (portrait, landscape, square). A 4th picture starts a new row. -->
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/duchamp-2.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="land" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/duchamp-3.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="mirror" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/duchamp-4.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="avatar" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="dabout st">
+      <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
+      <div class="dtext">
+        <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
+        <p>London Tsai is a Brooklyn-based artist working in kinetic and cybernetic sculpture.</p>
+        <p>Placeholder text. A longer note on the artist can continue here.</p>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<!-- ======================================================================
+     [DOSSIER] d-living: Living Distance
+     Opens from the "Read more" button on the main page (Room II).
+     data-nav on the template line below is the name shown in the Previous / Next links at the bottom of the pop-up.
+     [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
+     [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
+     ====================================================================== -->
+<template id="d-living" data-nav="Living Distance">
+  <div class="dossier">
+
+    <header class="dhead st">
+      <span class="dnum" aria-hidden="true">II</span> <!-- big outlined room numeral -->
+      <p class="mono deyebrow">Room II · Artwork</p> <!-- [TEXT] small label above the title -->
+      <h2 class="dtitle" id="dlg-title">Living Distance</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">Xin Liu · 2019–2020 · Two-channel video, VR installation, performance</p> <!-- [TEXT] one-line details under the title -->
+    </header>
+
+    <figure class="dlead st">
+      <div class="frame">
+        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+        <!-- <img src="images/living-lead.jpg" alt="Describe the picture for screen readers"> -->
+        <canvas data-kind="parcels" aria-hidden="true"></canvas>
+      </div>
+      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+    </figure>
+
+    <div class="dgrid">
+      <aside class="dfacts st" aria-label="Details">
+        <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
+        <dl>
+          <div><dt>Artist</dt><dd>Xin Liu</dd></div>
+          <div><dt>Year</dt><dd>2019–2020</dd></div>
+          <div><dt>Medium</dt><dd>Two-channel video, VR installation, performance</dd></div>
+          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+        </dl>
+      </aside>
+
+      <div class="dtext st">
+        <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
+        <h3>About the work</h3>
+        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
+        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+
+        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
+        <blockquote class="dquote">
+          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
+          <cite>Name · Source · Year</cite>
+        </blockquote>
+
+        <h3>Process</h3>
+        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <h3>Context</h3>
+        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+      </div>
+    </div>
+
+    <section class="st">
+      <h3 class="mono dgal-h">More images</h3> <!-- [TEXT] heading above the gallery -->
+      <div class="gal">
+        <!-- [IMAGE] GALLERY: laid out for 3 pictures (portrait, landscape, square). A 4th picture starts a new row. -->
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/living-2.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="mandala" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/living-3.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="pixels" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/living-4.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="eyes" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="dabout st">
+      <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
+      <div class="dtext">
+        <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
+        <p>Xin Liu (b. 1991, Xinjiang) is an artist and engineer whose work explores the intersections of technology, nature, and human experience.</p>
+        <p>Placeholder text. A longer note on the artist can continue here.</p>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<!-- ======================================================================
+     [DOSSIER] d-horologic: Horologic Solum
+     Opens from the "More by Vivian Xu" button on the main page (Room II).
+     data-nav on the template line below is the name shown in the Previous / Next links at the bottom of the pop-up.
+     [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
+     [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
+     ====================================================================== -->
+<template id="d-horologic" data-nav="Horologic Solum, related work">
+  <div class="dossier">
+
+    <header class="dhead st">
+      <span class="dnum" aria-hidden="true">II</span> <!-- big outlined room numeral -->
+      <p class="mono deyebrow">Room II · Related work</p> <!-- [TEXT] small label above the title -->
+      <h2 class="dtitle" id="dlg-title">Horologic Solum</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">Vivian Xu &amp; Benjamin Bacon · Horologic Series</p> <!-- [TEXT] one-line details under the title -->
+    </header>
+
+    <figure class="dlead st">
+      <div class="frame">
+        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+        <!-- <img src="images/horologic-related-lead.jpg" alt="Describe the picture for screen readers"> -->
+        <canvas data-kind="strokes" aria-hidden="true"></canvas>
+      </div>
+      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+    </figure>
+
+    <div class="dgrid">
+      <aside class="dfacts st" aria-label="Details">
+        <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
+        <dl>
+          <div><dt>Artist</dt><dd>Vivian Xu &amp; Benjamin Bacon</dd></div>
+          <div><dt>Year</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Medium</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Related to</dt><dd>Horologic Hysteros</dd></div>
+        </dl>
+      </aside>
+
+      <div class="dtext st">
+        <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
+        <h3>About the work</h3>
+        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
+        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+
+        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
+        <blockquote class="dquote">
+          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
+          <cite>Name · Source · Year</cite>
+        </blockquote>
+
+        <h3>Process</h3>
+        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <h3>Connection to Horologic Hysteros</h3>
+        <p>Placeholder text. Explain how this work complements Horologic Hysteros in this room: a shared theme, a contrasting method, or the next step in the artist’s thinking.</p>
+      </div>
+    </div>
+
+    <section class="st">
+      <h3 class="mono dgal-h">More images</h3> <!-- [TEXT] heading above the gallery -->
+      <div class="gal">
+        <!-- [IMAGE] GALLERY: laid out for 3 pictures (portrait, landscape, square). A 4th picture starts a new row. -->
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/horologic-related-2.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="mirror" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/horologic-related-3.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="avatar" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/horologic-related-4.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="mesh" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="dabout st">
+      <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
+      <div class="dtext">
+        <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
+        <p>Vivian Xu is a media artist and Assistant Professor at Duke Kunshan University whose work explores bio and electronic media.</p>
+        <p>Placeholder text. A longer note on the artist can continue here.</p>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<!-- ======================================================================
+     [DOSSIER] d-cry: De Shan Shui
+     Opens from the "More by Chen Baoyang" button on the main page (Room III).
+     data-nav on the template line below is the name shown in the Previous / Next links at the bottom of the pop-up.
+     [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
+     [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
+     ====================================================================== -->
+<template id="d-cry" data-nav="De Shan Shui, related work">
+  <div class="dossier">
+
+    <header class="dhead st">
+      <span class="dnum" aria-hidden="true">III</span> <!-- big outlined room numeral -->
+      <p class="mono deyebrow">Room III · Related work</p> <!-- [TEXT] small label above the title -->
+      <h2 class="dtitle" id="dlg-title">De Shan Shui</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">Chen Baoyang</p> <!-- [TEXT] one-line details under the title -->
+    </header>
+
+    <figure class="dlead st">
+      <div class="frame">
+        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+        <!-- <img src="images/cry-related-lead.jpg" alt="Describe the picture for screen readers"> -->
+        <canvas data-kind="land" aria-hidden="true"></canvas>
+      </div>
+      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+    </figure>
+
+    <div class="dgrid">
+      <aside class="dfacts st" aria-label="Details">
+        <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
+        <dl>
+          <div><dt>Artist</dt><dd>Chen Baoyang</dd></div>
+          <div><dt>Year</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Medium</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Related to</dt><dd>I&#x27;ve Seen You Cry in the Rain</dd></div>
+        </dl>
+      </aside>
+
+      <div class="dtext st">
+        <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
+        <h3>About the work</h3>
+        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
+        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+
+        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
+        <blockquote class="dquote">
+          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
+          <cite>Name · Source · Year</cite>
+        </blockquote>
+
+        <h3>Process</h3>
+        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <h3>Connection to I&#x27;ve Seen You Cry in the Rain</h3>
+        <p>Placeholder text. Explain how this work complements I&#x27;ve Seen You Cry in the Rain in this room: a shared theme, a contrasting method, or the next step in the artist’s thinking.</p>
+      </div>
+    </div>
+
+    <section class="st">
+      <h3 class="mono dgal-h">More images</h3> <!-- [TEXT] heading above the gallery -->
+      <div class="gal">
+        <!-- [IMAGE] GALLERY: laid out for 3 pictures (portrait, landscape, square). A 4th picture starts a new row. -->
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/cry-related-2.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="pixels" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/cry-related-3.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="eyes" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/cry-related-4.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="parcels" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="dabout st">
+      <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
+      <div class="dtext">
+        <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
+        <p>Chen Baoyang (b. 1989, Hangzhou) is an artist and curator exploring AI and robotics as creative collaborators.</p>
+        <p>Placeholder text. A longer note on the artist can continue here.</p>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<!-- ======================================================================
+     [DOSSIER] d-doku: DOKU the Self
+     Opens from the "Read more" button on the main page (Room III).
+     data-nav on the template line below is the name shown in the Previous / Next links at the bottom of the pop-up.
+     [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
+     [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
+     ====================================================================== -->
+<template id="d-doku" data-nav="DOKU the Self">
+  <div class="dossier">
+
+    <header class="dhead st">
+      <span class="dnum" aria-hidden="true">III</span> <!-- big outlined room numeral -->
+      <p class="mono deyebrow">Room III · Artwork</p> <!-- [TEXT] small label above the title -->
+      <h2 class="dtitle" id="dlg-title">DOKU the Self</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">Lu Yang · 2022 · Single-channel video, 36 min</p> <!-- [TEXT] one-line details under the title -->
+    </header>
+
+    <figure class="dlead st">
+      <div class="frame">
+        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+        <!-- <img src="images/doku-lead.jpg" alt="Describe the picture for screen readers"> -->
+        <canvas data-kind="mandala" aria-hidden="true"></canvas>
+      </div>
+      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+    </figure>
+
+    <div class="dgrid">
+      <aside class="dfacts st" aria-label="Details">
+        <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
+        <dl>
+          <div><dt>Artist</dt><dd>Lu Yang</dd></div>
+          <div><dt>Year</dt><dd>2022</dd></div>
+          <div><dt>Medium</dt><dd>Single-channel video, 36 min; digital avatar, motion capture, real-time rendering</dd></div>
+          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+        </dl>
+      </aside>
+
+      <div class="dtext st">
+        <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
+        <h3>About the work</h3>
+        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
+        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+
+        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
+        <blockquote class="dquote">
+          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
+          <cite>Name · Source · Year</cite>
+        </blockquote>
+
+        <h3>Process</h3>
+        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <h3>Context</h3>
+        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+      </div>
+    </div>
+
+    <section class="st">
+      <h3 class="mono dgal-h">More images</h3> <!-- [TEXT] heading above the gallery -->
+      <div class="gal">
+        <!-- [IMAGE] GALLERY: laid out for 3 pictures (portrait, landscape, square). A 4th picture starts a new row. -->
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/doku-2.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="avatar" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/doku-3.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="mesh" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+        <figure>
+          <div class="frame">
+            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <!-- <img src="images/doku-4.jpg" alt="Describe the picture for screen readers"> -->
+            <canvas data-kind="strokes" aria-hidden="true"></canvas>
+          </div>
+          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+        </figure>
+      </div>
+    </section>
+
+    <section class="dabout st">
+      <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
+      <div class="dtext">
+        <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
+        <p>Lu Yang (b. 1984, Shanghai) is an artist whose work draws on neuroscience, Buddhist imagery, and game culture.</p>
+        <p>Placeholder text. A longer note on the artist can continue here.</p>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<!-- [TEXT] The pop-up frame. The small line at the top-left of the pop-up and the Close button label can be edited here. -->
+<dialog class="dlg" id="dlg" aria-labelledby="dlg-title">
+  <div class="dbar"><div class="dcol dbar-in">
+    <span class="mono dcrumb">Cybernetics with Chinese Characteristics</span>
+    <button type="button" class="more dclose" id="dlg-close" aria-label="Close and return to the exhibition"><span>Close</span><span class="arr" aria-hidden="true">✕</span></button>
+  </div></div>
+  <div class="dcol dbody" id="dlg-body"></div>
+  <nav class="dcol" aria-label="Other pop-up pages"><div class="dnav-in" id="dlg-nav">
+    <button type="button" class="prev" data-go="-1"><span class="mono">← Previous</span><span class="t"></span></button>
+    <button type="button" class="next" data-go="1"><span class="mono">Next →</span><span class="t"></span></button>
+  </div></nav>
+</dialog>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+  var C = {};
+  function readColors() {
+    var cs = getComputedStyle(root);
+    ['bg', 'bg2', 'fg', 'muted', 'line', 'accent', 'jade'].forEach(function (k) {
+      C[k] = cs.getPropertyValue('--' + k).trim();
+    });
+  }
+  readColors();
+
+  function hash(n) { n = Math.sin(n * 127.1 + 311.7) * 43758.5453; return n - Math.floor(n); }
+  function noise(x) {
+    var i = Math.floor(x), f = x - i, u = f * f * (3 - 2 * f);
+    return hash(i) * (1 - u) + hash(i + 1) * u;
+  }
+  var TAU = Math.PI * 2;
+
+  /* ---------- Title letters ---------- */
+  document.querySelectorAll('.split').forEach(function (el) {
+    var txt = el.textContent;
+    el.textContent = '';
+    el.setAttribute('aria-label', txt);
+    Array.from(txt).forEach(function (ch, i) {
+      var s = document.createElement('span');
+      s.textContent = ch === ' ' ? ' ' : ch;
+      s.setAttribute('aria-hidden', 'true');
+      s.style.setProperty('--i', i);
+      el.appendChild(s);
+    });
+  });
+
+  /* ---------- Sketches ---------- */
+  var D = {};
+
+  D.hero = function (c, w, h, t, s) {
+    var st = s.st;
+    if (!st.p) {
+      st.p = [];
+      for (var i = 0; i < 260; i++) st.p.push({ u: hash(i * 1.7), v: 0.05 + hash(i * 4.1) * 0.05, o: hash(i * 8.3) - 0.5 });
+    }
+    if (s.dirty) { c.fillStyle = C.bg; c.fillRect(0, 0, w, h); }
+    c.globalAlpha = reduce ? 0 : 0.16;
+    c.fillStyle = C.bg; c.fillRect(0, 0, w, h);
+    c.globalAlpha = 1;
+    var a = w * 0.34, b = h * 0.36, cx = w * 0.64, cy = h * 0.42;
+    var mx = s.mx * w, my = s.my * h;
+    var passes = reduce ? 6 : 1;
+    for (var k = 0; k < passes; k++) {
+      for (var j = 0; j < st.p.length; j++) {
+        var p = st.p[j];
+        p.u = (p.u + p.v * (reduce ? 0.04 : s.dt)) % 1;
+        var th = p.u * TAU;
+        var x = cx + a * Math.cos(th) + p.o * 46;
+        var y = cy + b * Math.sin(2 * th) * 0.8 + p.o * 46;
+        var dx = x - mx, dy = y - my, d = Math.hypot(dx, dy);
+        if (d < 160 && d > 0.01) { var f = (1 - d / 160) * 46; x += dx / d * f; y += dy / d * f; }
+        c.fillStyle = p.o > 0 ? C.accent : C.jade;
+        c.fillRect(x, y, 2.4, 2.4);
+      }
+    }
+  };
+
+  D.mirror = function (c, w, h, t, s) {
+    c.fillStyle = C.bg2; c.fillRect(0, 0, w, h);
+    var R = Math.min(w, h) * 0.5, cy = h / 2;
+    c.lineWidth = 1.4;
+    for (var i = 0; i < 16; i++) {
+      var p = ((i / 16) + t * 0.06) % 1, r = p * R * 1.3;
+      c.globalAlpha = 1 - p;
+      c.strokeStyle = C.jade;
+      c.beginPath(); c.ellipse(w * 0.3 + (s.mx - 0.5) * 30, cy, r * 0.75, r, 0, 0, TAU); c.stroke();
+      c.strokeStyle = C.accent;
+      c.beginPath(); c.ellipse(w * 0.7 - (s.mx - 0.5) * 30, cy + (s.my - 0.5) * 20, r * 0.75, r, 0, 0, TAU); c.stroke();
+    }
+    c.globalAlpha = 1;
+    c.strokeStyle = C.fg; c.lineWidth = 1; c.setLineDash([4, 6]);
+    c.beginPath(); c.moveTo(w / 2, 0); c.lineTo(w / 2, h); c.stroke();
+    c.setLineDash([]);
+  };
+
+  D.pixels = function (c, w, h, t, s) {
+    c.fillStyle = C.bg2; c.fillRect(0, 0, w, h);
+    var n = Math.max(10, Math.round(w / 26)), cell = w / n, rows = Math.ceil(h / cell);
+    for (var y = 0; y < rows; y++) {
+      for (var x = 0; x < n; x++) {
+        var v = Math.sin(x * 0.55 + t * 1.3) + Math.cos(y * 0.7 - t * 0.9) + Math.sin((x + y) * 0.35 + t * 0.5);
+        if (v > 1.05) { c.fillStyle = C.accent; c.globalAlpha = Math.min(1, (v - 1) * 0.9 + 0.25); }
+        else if (v < -1.3) { c.fillStyle = C.jade; c.globalAlpha = 0.7; }
+        else continue;
+        c.fillRect(x * cell + 1, y * cell + 1, cell - 2, cell - 2);
+      }
+    }
+    c.globalAlpha = 1;
+    var px = s.mx * w, py = s.my * h;
+    c.strokeStyle = C.fg; c.lineWidth = 1.5;
+    c.beginPath();
+    c.arc(px, py, 16, 0, TAU);
+    c.moveTo(px - 26, py); c.lineTo(px - 8, py); c.moveTo(px + 8, py); c.lineTo(px + 26, py);
+    c.moveTo(px, py - 26); c.lineTo(px, py - 8); c.moveTo(px, py + 8); c.lineTo(px, py + 26);
+    c.stroke();
+  };
+
+  D.avatar = function (c, w, h, t, s) {
+    c.fillStyle = C.bg2; c.fillRect(0, 0, w, h);
+    var cx = w / 2 + (s.mx - 0.5) * w * 0.08, cy = h * 0.42, rx = h * 0.2, ry = h * 0.28;
+    var yN = cy + ry * 0.95, fr = Math.floor(t * 4);
+    c.setLineDash([2, 10]); c.lineDashOffset = -t * 8;
+    c.strokeStyle = C.fg; c.lineWidth = 1.2;
+    c.beginPath(); c.arc(cx, cy, ry * 1.35, 0, TAU); c.stroke();
+    c.setLineDash([]);
+    c.lineWidth = 1.6;
+    for (var y = cy - ry, row = 0; y < h; y += 4, row++) {
+      var half;
+      if (y < yN) { var d = (y - cy) / ry; half = rx * Math.sqrt(Math.max(0, 1 - d * d)); }
+      else { var k = (y - yN) / (h - yN); half = rx * 0.4 + k * k * rx * 3.2; }
+      var g = hash(row * 7.7 + fr * 13.1);
+      var dx = g > 0.93 ? (g - 0.93) * 900 * (hash(row) - 0.5) : 0;
+      c.strokeStyle = row % 6 < 2 ? C.accent : C.jade;
+      c.globalAlpha = 0.9;
+      c.beginPath(); c.moveTo(cx - half + dx, y); c.lineTo(cx + half + dx, y); c.stroke();
+    }
+    c.globalAlpha = 1;
+  };
+
+  D.eyes = function (c, w, h, t, s) {
+    c.fillStyle = C.bg2; c.fillRect(0, 0, w, h);
+    var cell = Math.max(34, w / 9), nx = Math.ceil(w / cell), ny = Math.ceil(h / cell);
+    var mx = s.mx * w, my = s.my * h;
+    c.lineWidth = 1.2; c.strokeStyle = C.muted;
+    for (var y = 0; y < ny; y++) {
+      for (var x = 0; x < nx; x++) {
+        var ex = (x + 0.5) * cell, ey = (y + 0.5) * cell;
+        var a = Math.atan2(my - ey, mx - ex), d = Math.min(1, Math.hypot(mx - ex, my - ey) / (cell * 3));
+        var open = Math.min(1, Math.abs(Math.sin(t * 0.5 + hash(x * 3.1 + y * 5.7) * 30)) * 8);
+        var ry = Math.max(1, cell * 0.22 * open);
+        c.beginPath(); c.ellipse(ex, ey, cell * 0.38, ry, 0, 0, TAU); c.stroke();
+        c.fillStyle = C.accent;
+        c.beginPath();
+        c.ellipse(ex + Math.cos(a) * cell * 0.14 * d, ey + Math.sin(a) * ry * 0.5 * d, cell * 0.09, Math.max(0.5, ry * 0.55), 0, 0, TAU);
+        c.fill();
+      }
+    }
+  };
+
+  D.mesh = function (c, w, h, t, s) {
+    c.fillStyle = C.bg2; c.fillRect(0, 0, w, h);
+    var st = s.st, N = 26;
+    if (!st.n) { st.n = []; for (var i = 0; i < N; i++) st.n.push({ x: hash(i * 3.3), y: hash(i * 5.1 + 1), p: hash(i * 9.7) * 6 }); }
+    var wallX = w * 0.55, pts = [];
+    for (var j = 0; j < N; j++) {
+      var o = st.n[j];
+      pts.push({ x: o.x * w + Math.sin(t * 0.4 + o.p) * 14, y: o.y * h + Math.cos(t * 0.35 + o.p) * 14 });
+    }
+    pts.push({ x: s.mx * w, y: s.my * h, ptr: true });
+    c.setLineDash([6, 8]); c.strokeStyle = C.fg; c.lineWidth = 1;
+    c.beginPath(); c.moveTo(wallX, 0); c.lineTo(wallX, h); c.stroke();
+    c.setLineDash([]);
+    var link = Math.min(w, h) * 0.38;
+    for (var a = 0; a < pts.length; a++) {
+      for (var b = a + 1; b < pts.length; b++) {
+        var d = Math.hypot(pts[a].x - pts[b].x, pts[a].y - pts[b].y);
+        if (d >= link) continue;
+        var cross = (pts[a].x - wallX) * (pts[b].x - wallX) < 0;
+        c.strokeStyle = (pts[a].ptr || pts[b].ptr) ? C.fg : (cross ? C.accent : C.jade);
+        c.globalAlpha = (1 - d / link) * (cross ? 0.4 : 0.85);
+        c.beginPath(); c.moveTo(pts[a].x, pts[a].y); c.lineTo(pts[b].x, pts[b].y); c.stroke();
+      }
+    }
+    c.globalAlpha = 1; c.fillStyle = C.fg;
+    for (var k = 0; k < pts.length; k++) {
+      c.beginPath(); c.arc(pts[k].x, pts[k].y, pts[k].ptr ? 4 : 2.6, 0, TAU); c.fill();
+    }
+  };
+
+  D.parcels = function (c, w, h, t, s) {
+    c.fillStyle = C.bg2; c.fillRect(0, 0, w, h);
+    var st = s.st, lanes = 6, lh = h / lanes;
+    if (!st.off) st.off = [0, 0, 0, 0, 0, 0];
+    c.strokeStyle = C.line; c.lineWidth = 1;
+    for (var l = 0; l < lanes; l++) {
+      var y = l * lh;
+      c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke();
+      var speed = (24 + l * 9) * (l % 2 ? -1 : 1) * (1 + (s.mx - 0.5) * 1.4);
+      st.off[l] += speed * s.dt;
+      var gap = lh * 2.2, span = (Math.ceil(w / gap) + 2) * gap;
+      for (var k = 0; k < Math.ceil(w / gap) + 2; k++) {
+        var x = (((k * gap + st.off[l]) % span) + span) % span - gap;
+        var bw = lh * (0.8 + hash(l * 17 + k * 3) * 0.7), bh = lh * 0.55, r = hash(l * 5 + k * 11);
+        if (r > 0.8) { c.fillStyle = C.accent; c.globalAlpha = 1; }
+        else if (r > 0.4) { c.fillStyle = C.jade; c.globalAlpha = 0.9; }
+        else { c.fillStyle = C.fg; c.globalAlpha = 0.45; }
+        c.fillRect(x, y + (lh - bh) / 2, bw, bh);
+      }
+    }
+    c.globalAlpha = 1;
+  };
+
+  D.strokes = function (c, w, h, t, s) {
+    c.fillStyle = C.bg2; c.fillRect(0, 0, w, h);
+    var A = w * 0.28, B = h * 0.28, cx = w * 0.42 + (s.mx - 0.5) * w * 0.2, cy = h * 0.62 + (s.my - 0.5) * h * 0.15;
+    function P(u, off) {
+      return {
+        x: cx + A * Math.sin(u + 0.6 + off) + A * 0.35 * Math.sin(u * 2.3),
+        y: cy + B * Math.sin(u * 1.7) + B * 0.3 * Math.cos(u * 3.1 + off)
+      };
+    }
+    var u0 = t * 0.7, steps = 160, dt = 0.045;
+    c.lineWidth = 2; c.lineCap = 'round';
+    [[0.35, C.accent], [0, C.jade]].forEach(function (pair) {
+      for (var k = steps - 1; k >= 0; k--) {
+        var p1 = P(u0 - (k + 1) * dt, pair[0]), p2 = P(u0 - k * dt, pair[0]);
+        c.globalAlpha = 1 - k / steps;
+        c.strokeStyle = pair[1];
+        c.beginPath(); c.moveTo(p1.x, p1.y); c.lineTo(p2.x, p2.y); c.stroke();
+      }
+    });
+    c.globalAlpha = 1;
+    var tp = P(u0, 0), bx = w * 0.9, by = h * 0.04, L = Math.hypot(w, h) * 0.55;
+    var dx = tp.x - bx, dy = tp.y - by, d = Math.min(Math.hypot(dx, dy), 2 * L - 1);
+    var ang = Math.atan2(dy, dx), off = Math.acos(d / (2 * L));
+    var ex = bx + L * Math.cos(ang + off), ey = by + L * Math.sin(ang + off);
+    var fx = ex + L * Math.cos(ang - off), fy = ey + L * Math.sin(ang - off);
+    c.strokeStyle = C.fg; c.lineWidth = 3;
+    c.beginPath(); c.moveTo(bx, by); c.lineTo(ex, ey); c.lineTo(fx, fy); c.stroke();
+    c.fillStyle = C.fg;
+    [[bx, by, 5], [ex, ey, 4], [fx, fy, 3]].forEach(function (q) { c.beginPath(); c.arc(q[0], q[1], q[2], 0, TAU); c.fill(); });
+  };
+
+  D.land = function (c, w, h, t, s) {
+    c.fillStyle = C.bg2; c.fillRect(0, 0, w, h);
+    var layers = 11, ampK = 1 + (s.my - 0.5) * 0.6;
+    function yAt(l, x) {
+      var base = h * (0.32 + l * 0.058), amp = h * (0.16 - l * 0.008) * ampK;
+      var n = noise(x * 0.008 + l * 1.7 + t * 0.05 + s.mx * 1.5) * 0.7 + noise(x * 0.02 + l * 3.1 - t * 0.04) * 0.3;
+      return base - n * amp;
+    }
+    c.lineWidth = 1.2;
+    for (var l = 0; l < layers; l++) {
+      c.beginPath();
+      for (var x = 0; x <= w; x += 6) { var y = yAt(l, x); if (x) c.lineTo(x, y); else c.moveTo(x, y); }
+      c.lineTo(w, h); c.lineTo(0, h); c.closePath();
+      c.globalAlpha = 1; c.fillStyle = C.bg2; c.fill();
+      c.strokeStyle = l % 4 === 0 ? C.accent : C.jade;
+      c.globalAlpha = 0.3 + l * 0.06;
+      c.stroke();
+      c.globalAlpha = 1; c.fillStyle = C.accent;
+      for (var i = 0; i < 4; i++) {
+        var px = hash(l * 4 + i + 0.5) * w;
+        c.beginPath(); c.arc(px, yAt(l, px), 2.2, 0, TAU); c.fill();
+      }
+    }
+    c.globalAlpha = 1;
+  };
+
+  D.mandala = function (c, w, h, t, s) {
+    c.fillStyle = C.bg2; c.fillRect(0, 0, w, h);
+    c.save(); c.translate(w / 2, h / 2);
+    var R = Math.min(w, h) * 0.4, rot = t * 0.12 + (s.mx - 0.5) * 1.2;
+    c.lineWidth = 1.2;
+    for (var ring = 0; ring < 5; ring++) {
+      var n = 8 + ring * 4, r = R * (0.2 + ring * 0.19);
+      for (var i = 0; i < n; i++) {
+        c.save();
+        c.rotate(rot * (ring % 2 ? -1 : 1) + i * TAU / n);
+        c.strokeStyle = ring % 2 ? C.accent : C.jade;
+        c.beginPath();
+        c.moveTo(0, -r * 0.82);
+        c.quadraticCurveTo(r * 0.16, -r, 0, -r * 1.18);
+        c.quadraticCurveTo(-r * 0.16, -r, 0, -r * 0.82);
+        c.stroke();
+        c.restore();
+      }
+    }
+    c.strokeStyle = C.fg;
+    c.beginPath(); c.arc(0, 0, R * 0.1 + Math.sin(t * 2) * 3, 0, TAU); c.stroke();
+    c.restore();
+  };
+
+  var sketches = [], byCanvas = new Map();
+
+  function resize(s) {
+    var r = s.box.getBoundingClientRect();
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    s.w = r.width; s.h = r.height;
+    s.canvas.width = Math.max(1, Math.round(r.width * d));
+    s.canvas.height = Math.max(1, Math.round(r.height * d));
+    s.ctx.setTransform(d, 0, 0, d, 0, 0);
+    s.dirty = true;
+  }
+
+  var seedN = 0;
+  function addSketch(canvas) {
+    var kind = canvas.getAttribute('data-kind');
+    if (!D[kind]) return null;
+    var box = canvas.parentElement;
+    var s = { canvas: canvas, box: box, kind: kind, ctx: canvas.getContext('2d'), w: 0, h: 0, vis: false,
+      mx: 0.5, my: 0.5, tx: 0.5, ty: 0.5, hover: false, st: {}, seed: (seedN++) * 1.3, dt: 0.016, lt: null, dirty: true, ro: null };
+    sketches.push(s); byCanvas.set(canvas, s);
+    box.addEventListener('pointermove', function (e) {
+      var r = box.getBoundingClientRect();
+      s.tx = (e.clientX - r.left) / r.width; s.ty = (e.clientY - r.top) / r.height; s.hover = true;
+    });
+    box.addEventListener('pointerleave', function () { s.hover = false; });
+    resize(s);
+    if ('ResizeObserver' in window) {
+      s.ro = new ResizeObserver(function () { resize(s); if (reduce) tick(1); });
+      s.ro.observe(box);
+    }
+    return s;
+  }
+
+  document.querySelectorAll('canvas[data-kind]').forEach(function (canvas) { addSketch(canvas); });
+
+
+  function tick(t) {
+    readColors();
+    for (var i = 0; i < sketches.length; i++) {
+      var s = sketches[i];
+      if (!s.vis || !s.w) continue;
+      s.dt = Math.min(0.05, s.lt == null ? 0.016 : Math.max(0, t - s.lt)); s.lt = t;
+      if (!s.hover) { s.tx = 0.5 + 0.3 * Math.sin(t * 0.4 + s.seed); s.ty = 0.5 + 0.3 * Math.cos(t * 0.31 + s.seed * 1.7); }
+      s.mx += (s.tx - s.mx) * 0.08; s.my += (s.ty - s.my) * 0.08;
+      s.ctx.save(); D[s.kind](s.ctx, s.w, s.h, t, s); s.ctx.restore();
+      s.dirty = false;
+    }
+  }
+
+  if ('IntersectionObserver' in window) {
+    var vio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var s = byCanvas.get(e.target);
+        if (s) { s.vis = e.isIntersecting; if (s.vis) s.lt = null; }
+      });
+      if (reduce) tick(1);
+    }, { rootMargin: '80px' });
+    sketches.forEach(function (s) { vio.observe(s.canvas); });
+  } else {
+    sketches.forEach(function (s) { s.vis = true; });
+  }
+
+  if (reduce) { sketches.forEach(function (s) { s.vis = true; }); tick(1); }
+  else {
+    (function loop(ms) { tick(ms / 1000); requestAnimationFrame(loop); })(0);
+  }
+
+  /* ---------- Sketches created after load (overlay, image fallbacks) ---------- */
+  function watchSketch(s) {
+    if (!s) return;
+    if (reduce || typeof vio === 'undefined') s.vis = true;
+    else vio.observe(s.canvas);
+  }
+  function mountSketches(rootEl) {
+    rootEl.querySelectorAll('canvas[data-kind]').forEach(function (canvas) { watchSketch(addSketch(canvas)); });
+    if (reduce) tick(1);
+  }
+  function unmountSketches(rootEl) {
+    rootEl.querySelectorAll('canvas[data-kind]').forEach(function (canvas) {
+      var s = byCanvas.get(canvas);
+      if (!s) return;
+      var i = sketches.indexOf(s);
+      if (i >= 0) sketches.splice(i, 1);
+      byCanvas.delete(canvas);
+      if (s.ro) s.ro.disconnect();
+      if (typeof vio !== 'undefined') vio.unobserve(canvas);
+    });
+  }
+
+  /* ---------- If a photo cannot load (blocked or offline), show a sketch in its place ---------- */
+  document.querySelectorAll('.frame img[data-fb]').forEach(function (img) {
+    function swap() {
+      var box = img.parentElement;
+      if (!box || box.querySelector('canvas')) return;
+      var c = document.createElement('canvas');
+      c.setAttribute('data-kind', img.getAttribute('data-fb'));
+      c.setAttribute('role', 'img');
+      c.setAttribute('aria-label', img.getAttribute('alt') || '');
+      img.remove();
+      box.appendChild(c);
+      watchSketch(addSketch(c));
+      if (reduce) tick(1);
+    }
+    if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) swap();
+    else img.addEventListener('error', swap, { once: true });
+  });
+
+  /* ---------- Read more overlay ---------- */
+  (function () {
+    var dlg = document.getElementById('dlg');
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+    var dBody = document.getElementById('dlg-body');
+    var dNav = document.getElementById('dlg-nav');
+    var order = Array.prototype.map.call(document.querySelectorAll('template[id^="d-"]'), function (t) {
+      return { id: t.id.slice(2), nav: t.getAttribute('data-nav') || '', tpl: t };
+    });
+    var cur = -1, lastBtn = null, closing = false;
+
+    function render(i) {
+      unmountSketches(dBody);
+      var n = order.length;
+      cur = ((i % n) + n) % n;
+      dBody.textContent = '';
+      dBody.appendChild(order[cur].tpl.content.cloneNode(true));
+      Array.prototype.forEach.call(dBody.querySelectorAll('.st'), function (el, k) { el.style.setProperty('--n', k); });
+      dNav.querySelector('.prev .t').textContent = order[(cur - 1 + n) % n].nav;
+      dNav.querySelector('.next .t').textContent = order[(cur + 1) % n].nav;
+      dlg.scrollTop = 0;
+      mountSketches(dBody);
+    }
+
+    function openFor(btn) {
+      var id = btn.getAttribute('data-open'), i = -1;
+      order.forEach(function (o, k) { if (o.id === id) i = k; });
+      if (i < 0 || dlg.open) return;
+      lastBtn = btn;
+      var r = btn.getBoundingClientRect();
+      dlg.style.setProperty('--cx', (r.left + r.width / 2) + 'px');
+      dlg.style.setProperty('--cy', (r.top + r.height / 2) + 'px');
+      dlg.style.setProperty('--d0', '0.35s');
+      root.classList.add('lock');
+      dlg.showModal();
+      render(i);
+    }
+
+    function finish() {
+      closing = false;
+      dlg.classList.remove('closing');
+      unmountSketches(dBody);
+      dBody.textContent = '';
+      if (dlg.open) dlg.close();
+      root.classList.remove('lock');
+      if (lastBtn) lastBtn.focus({ preventScroll: true });
+    }
+
+    function closeDlg() {
+      if (!dlg.open || closing) return;
+      if (reduce) { finish(); return; }
+      closing = true;
+      dlg.classList.add('closing');
+      dlg.addEventListener('animationend', function h(e) {
+        if (e.target !== dlg) return;
+        dlg.removeEventListener('animationend', h);
+        if (closing) finish();
+      });
+      setTimeout(function () { if (closing) finish(); }, 900);
+    }
+
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.more[data-open]') : null;
+      if (b) openFor(b);
+    });
+    dlg.addEventListener('click', function (e) {
+      if (e.target.closest('#dlg-close')) { closeDlg(); return; }
+      var g = e.target.closest('[data-go]');
+      if (g && !closing) {
+        dlg.style.setProperty('--d0', '0.05s');
+        render(cur + parseInt(g.getAttribute('data-go'), 10));
+      }
+    });
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeDlg(); });
+  })();
+
+  /* ---------- Scroll reveal (only for blocks below the first screen) ---------- */
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.rv').forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top > window.innerHeight * 0.95) { el.classList.add('pre'); io.observe(el); }
+    });
+  }
+})();
+</script>
+</body></html>
