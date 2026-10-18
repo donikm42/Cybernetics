@@ -196,7 +196,8 @@ h1, h2, h3, p, ul, figure { margin: 0; }
   overflow: hidden;
 }
 .frame canvas,
-.frame img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
+.frame img,
+.frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; border: 0; }
 figcaption { margin-top: 0.6rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--muted); }
 .label { min-width: 0; display: grid; gap: 0.9rem; }
 .label h3 {
@@ -735,7 +736,7 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <!-- [TEXT] artist line -->
         <p class="artist"><span>Artist</span>Chen Baoyang (b. 1989, Hangzhou) is an artist and curator exploring AI and robotics as creative collaborators.</p>
         <!-- [TEXT] the button label is the words inside <span>. It opens the pop-up [DOSSIER] with id d-cry (search for it further down). -->
-        <button type="button" class="more" data-open="cry" aria-haspopup="dialog" aria-label="More by Chen Baoyang: De Shan Shui"><span>More by Chen Baoyang</span><span class="arr" aria-hidden="true">→</span></button>
+        <button type="button" class="more" data-open="cry" aria-haspopup="dialog" aria-label="More by Chen Baoyang: Do Androids Dream of Electric Cows?"><span>More by Chen Baoyang</span><span class="arr" aria-hidden="true">→</span></button>
       </div>
     </article>
 
@@ -797,9 +798,9 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
     <figure class="dlead st">
       <div class="frame">
         <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-        <img src="images/matchmaking-lead.jpg" alt="Describe the picture for screen readers">
+        <img src="images/past2.jpg" alt="Describe the picture for screen readers">
       </div>
-      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+      <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
     </figure>
 
     <div class="dgrid">
@@ -807,18 +808,17 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
         <dl>
           <div><dt>Artist</dt><dd>Liu Dao (六岛)</dd></div>
-          <div><dt>Year</dt><dd><span class="tba">2024</span></dd></div>
+          <div><dt>Year</dt><dd>2024</dd></div>
           <div><dt>Medium</dt><dd>LED interactive installation, mixed media</dd></div>
-          <div><dt>Dimensions</dt><dd><span class="tba">117(W)×117(H)×21(D) cm // 61.8 kg</span></dd></div>
-          <div><dt>Courtesy</dt><dd><span class="tba">Yang Suer 杨素儿 (performance) • Shengqiu Li 李生秋 (calligraphy) • Helen Chen 陈韵涵 (art direction) • Thomas Charvériat (art direction) • Yeung Sin Ching 杨倩菁 (production supervisor) • Tiara Alvarado-Leon (blurb)</span></dd></div>
+          <div><dt>Dimensions</dt><dd>117(W)×117(H)×21(D) cm; 61.8 kg</dd></div>
+          <div><dt>Courtesy</dt><dd>Yang Suer 杨素儿 (performance), Shengqiu Li 李生秋 (calligraphy), Helen Chen 陈韵涵 (art direction), Thomas Charvériat (art direction), Yeung Sin Ching 杨倩菁 (production supervisor), Tiara Alvarado-Leon (blurb)</dd></div>
         </dl>
       </aside>
 
       <div class="dtext st">
         <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
         <h3>About the work</h3>
-        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
-        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+        <p>The work reflects the changing relationship between collective social expectations and personal identity in contemporary China. As younger generations increasingly navigate marriage on their own terms, the matchmaking ritual reveals tensions between familial responsibility, social conformity, and individual freedom. By translating this everyday practice into an interactive artwork, Liu Dao invites viewers to consider how deeply inherited social values continue to shape modern life.</p>
 
         <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
         <blockquote class="dquote">
@@ -826,9 +826,9 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         </blockquote>
 
         <h3>Process</h3>
-        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <p>Liu Dao’s production process brings together artistic experimentation and technical collaboration. The collective typically begins with a curatorial concept, which artists translate into visual narratives through a combination of filming, digital animation, and physical fabrication. Programmers and technicians then integrate LED displays and interactive elements into the finished installation. Rather than the work of a single artist, each piece emerges from a collaborative process involving multiple creative and technical contributors. Although the exact production history of this work remains undocumented, it reflects Liu Dao’s broader approach to merging digital media with everyday social experience.</p>
         <h3>Context</h3>
-        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+        <p>Since its founding in Shanghai in 2006, Liu Dao has explored the intersection of Chinese cultural traditions, urban transformation, and emerging technologies. Works such as *Chinese Laundry* (2014) combine animated LED displays with familiar scenes of everyday life, revealing how digital media can reinterpret traditional visual narratives. Within the broader history of cybernetics—the study of communication, feedback, and control in systems—Liu Dao’s interactive practice invites viewers to consider how people and technologies shape one another. *Past Matchmaking Norms and Their Influence* extends this inquiry into the social sphere, connecting technological interaction with changing attitudes toward relationships, family, and personal choice in contemporary China.</p>
       </div>
     </div>
 
@@ -839,26 +839,20 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/matchmaking-2.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="eyes" aria-hidden="true"></canvas>
+            <img src="images/past1.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/matchmaking-3.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="parcels" aria-hidden="true"></canvas>
+            <img src="images/past3.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/matchmaking-4.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="land" aria-hidden="true"></canvas>
+            <img src="images/past4.jpg" alt="Describe the picture for screen readers"> 
           </div>
-          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
       </div>
     </section>
@@ -868,7 +862,7 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <div class="dtext">
         <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
         <p>Liu Dao is a Shanghai-based collective founded in 2006, known for interactive LED installations that blend traditional Chinese imagery with new media.</p>
-        <p>Placeholder text. A longer note on the artist can continue here.</p>
+        <p>Liu Dao (六岛) is a Shanghai-based art collective founded in 2007, known for blending contemporary art with digital technology, LED displays, video, and interactive installations. Working at the intersection of art, technology, and urban culture, the collective explores the complexities of modern Chinese society through a distinctive visual language that combines traditional Chinese influences with cyberpunk aesthetics. Its multidisciplinary approach challenges the boundaries between human experience and technological systems, offering a vivid portrait of life in an increasingly digital world.</p>
       </div>
     </section>
 
@@ -895,10 +889,9 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
     <figure class="dlead st">
       <div class="frame">
         <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-        <!-- <img src="images/detox-lead.jpg" alt="Describe the picture for screen readers"> -->
-        <canvas data-kind="pixels" aria-hidden="true"></canvas>
+        <img data-fb="pixels" src="https://digicult.it/wp-content/uploads/2019/02/Detox2.jpg" alt="Hardcore Digital Detox by Miao Ying" loading="lazy">
       </div>
-      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+      <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
     </figure>
 
     <div class="dgrid">
@@ -908,27 +901,20 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
           <div><dt>Artist</dt><dd>Miao Ying</dd></div>
           <div><dt>Year</dt><dd>2018</dd></div>
           <div><dt>Medium</dt><dd>Browser-based net art, interactive web collage</dd></div>
-          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
         </dl>
       </aside>
 
       <div class="dtext st">
         <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
         <h3>About the work</h3>
-        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
-        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
-
-        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
-        <blockquote class="dquote">
-          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
-          <cite>Name · Source · Year</cite>
-        </blockquote>
+        <p>The idea grows out of Miao Ying’s position as a dual citizen of the “Chinternet,” China’s restricted internet, and the global World Wide Web. Rather than treating censorship solely as a limitation, Miao explores how restrictions generate alternative forms of online creativity and expression. She describes users’ strategies for navigating censorship as a form of “self-censorship” and draws a parallel between the internet’s blocked content and liu bai—the negative space central to traditional Chinese ink painting. The work turns digital exclusion into a lens for examining how information, visibility, and absence shape online experience.</p>
 
         <h3>Process</h3>
-        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <p>Commissioned by M+ Museum in 2018, *Hardcore Digital Detox* developed across several digital and physical formats. Miao combined bilingual text, retro internet graphics, stock imagery, and animated 3D environments to construct a satirical online retreat. Its animation draws on a virtual-reality experience, translating the idea of digital isolation into an immersive simulated landscape. The project was also adapted into a physical installation, designed as a commercial-style “experience centre.” Together, these elements use the visual language of digital platforms and wellness products to construct a deliberately artificial promise of escape.</p>
+
         <h3>Context</h3>
-        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+        <p>The work’s first physical presentation took place at MadeIn Gallery in Shanghai as part of Miao Ying’s solo exhibition *Stones from Other Hills*, held from 6 November to 30 December 2018. The gallery was transformed into a garden-like environment featuring standing rock arrangements and human-height plinths displaying printed materials, manifestos, and paintings. As reported by *ArtAsiaPacific*, the installation also included motivational monologues delivered in an intentionally flat tone. Its central irony lies in the retreat’s advice: visitors are encouraged to install a VPN that assigns them a Chinese IP address, restricting access to platforms that would otherwise be available. The exhibition thus turns digital detox into an absurd institutional ritual, blurring the boundary between technological critique, performance, and commercial spectacle.</p>
+
       </div>
     </div>
 
@@ -939,26 +925,20 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/detox-2.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="mesh" aria-hidden="true"></canvas>
+            <img src="images/hardcore1.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/detox-3.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="strokes" aria-hidden="true"></canvas>
+            <img src="images/hardcore2.png" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
-            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/detox-4.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="mandala" aria-hidden="true"></canvas>
+            <!-- [IMAGE] GALLERY picture 3, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
+            <img src="images/hardcore5.png" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
       </div>
     </section>
@@ -968,7 +948,8 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <div class="dtext">
         <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
         <p>Miao Ying (b. 1985, Shanghai) is a Chinese artist known for net art and writing that explores internet censorship and digital culture.</p>
-        <p>Placeholder text. A longer note on the artist can continue here.</p>
+        <p>Miao Ying is a contemporary Chinese artist based in Shanghai, New York, and is part of the 1st generation of internet artists in China. She grew up with the internet, the one-child policy, and China’s economic reform, and was educated both in China and the West. She’s mainly interested in how the internet is controlled by the government and what it does to the people through making websites, internet memes, and humor. </p>
+        <p>She wants to say that internet is not a neutral space where you can choose what you see. Governments, platforms, algorithms, and advertising control that experience. However, people can still use humor, creativity, and clever workarounds to respond to these systems. She calls herself a dual netizen of the restricted Chinese internet and the World Wide Web.</p>
       </div>
     </section>
 
@@ -988,17 +969,16 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
     <header class="dhead st">
       <span class="dnum" aria-hidden="true">I</span> <!-- big outlined room numeral -->
       <p class="mono deyebrow">Room I · Related work</p> <!-- [TEXT] small label above the title -->
-      <h2 class="dtitle" id="dlg-title">Asia One</h2> <!-- [TEXT] title of this page -->
-      <p class="mono dmeta">Cao Fei · 2018 · Video</p> <!-- [TEXT] one-line details under the title -->
+      <h2 class="dtitle" id="dlg-title">RMB City: A Second Life City Planning</h2> <!-- [TEXT] title of this page -->
+      <p class="mono dmeta">Cao Fei · 2007 · Video installation</p> <!-- [TEXT] one-line details under the title -->
     </header>
 
     <figure class="dlead st">
       <div class="frame">
         <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-        <!-- <img src="images/utopia-related-lead.jpg" alt="Describe the picture for screen readers"> -->
-        <canvas data-kind="avatar" aria-hidden="true"></canvas>
+        <img src="images/rmb1.jpg" alt="Describe the picture for screen readers">
       </div>
-      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+      <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
     </figure>
 
     <div class="dgrid">
@@ -1006,30 +986,23 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
         <dl>
           <div><dt>Artist</dt><dd>Cao Fei</dd></div>
-          <div><dt>Year</dt><dd>2018</dd></div>
-          <div><dt>Medium</dt><dd>Video</dd></div>
-          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Related to</dt><dd>Whose Utopia?</dd></div>
+          <div><dt>Year</dt><dd>2007</dd></div>
+          <div><dt>Medium</dt><dd>Colour video with sound</dd></div>
+          <div><dt>Relation</dt><dd>Whose Utopia?</dd></div>
         </dl>
       </aside>
 
       <div class="dtext st">
         <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
         <h3>About the work</h3>
-        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
-        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
-
-        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
-        <blockquote class="dquote">
-          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
-          <cite>Name · Source · Year</cite>
-        </blockquote>
+        <p>Cao Fei’s RMB City is a virtual city created within the online platform Second Life under her avatar, China Tracy. Combining recognizable elements of Chinese urban landscapes, including skyscrapers, Olympic architecture, construction sites, and commercial spaces, the project creates a fictional city that reflects China’s rapid urbanization and economic transformation. </p>
+        
+        <p>Cao Fei also invited art institutions and other participants to purchase virtual land and contribute to the city’s development, making it a collaborative social experiment rather than simply a digital representation. The work examines how urban environments, economic systems, and digital technologies shape collective identity and social relationships. Its name references the renminbi, connecting the virtual city to China’s economic development and the contradictions between socialist ideals and market capitalism. From a cybernetic perspective, RMB City functions as an evolving system in which participants interact with and modify their environment, while the city’s design reflects the social and economic forces that influence their behavior. It raises questions about whether virtual environments can offer alternatives to existing social structures or reproduce the same inequalities and power relations found in physical cities.</p>
 
         <h3>Process</h3>
-        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <p>After entering the virtual world Second Life in January 2007, Cao Fei spent several months exploring its environments and documenting her experiences in the video project i.Mirror. This exploration inspired her to create a virtual city of her own. She used 3D modelling software to develop the initial design for RMB City: A Second Life City Planning (2007), assembling recognisable Chinese landmarks, futuristic architecture, and surreal objects into an exaggerated urban landscape. Cao subsequently formed a small team to construct the city within Second Life, turning the initial video blueprint into an ongoing, inhabitable virtual environment. The project developed through experimentation with digital architecture, online communities, and the possibilities of building an alternative society in a virtual world.</p>
         <h3>Connection to Whose Utopia?</h3>
-        <p>Placeholder text. Explain how this work complements Whose Utopia? in this room: a shared theme, a contrasting method, or the next step in the artist’s thinking.</p>
+        <p>Displayed alongside *Whose Utopia?* (2006), *RMB City* reveals Cao Fei’s evolving exploration of utopia amid China’s rapid economic transformation. While *Whose Utopia?* documents factory workers expressing personal dreams within the routines of industrial production, *RMB City* constructs an imaginary metropolis in which the contradictions of contemporary China become an absurd digital landscape. The two works approach utopia from opposite directions: one creates moments of individual freedom within the constraints of everyday reality, while the other imagines an alternative world shaped by urban ambition, consumerism, and technological possibility. Together, they ask who gets to shape the future—and whether the promises of progress can accommodate individual aspirations. </p>
       </div>
     </div>
 
@@ -1040,26 +1013,14 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/utopia-related-2.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="parcels" aria-hidden="true"></canvas>
+            <img src="images/rmb2.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/utopia-related-3.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="land" aria-hidden="true"></canvas>
+            <img src="images/rmb3.png" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
-        </figure>
-        <figure>
-          <div class="frame">
-            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/utopia-related-4.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="mirror" aria-hidden="true"></canvas>
-          </div>
-          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
       </div>
     </section>
@@ -1069,7 +1030,7 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <div class="dtext">
         <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
         <p>Cao Fei (b. 1978, Guangzhou) is a multimedia artist whose work explores China’s rapid social and cultural transformation.</p>
-        <p>Placeholder text. A longer note on the artist can continue here.</p>
+        <p>Working across film, virtual reality, photography, and digital environments, Cao examines the intersection of reality and imagination, tracing how globalization, technology, and consumer culture shape contemporary identities. Her practice often blends documentary observation with surreal, speculative worlds, creating spaces where personal aspirations collide with the promises and contradictions of modernization.</p>
       </div>
     </section>
 
@@ -1096,10 +1057,9 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
     <figure class="dlead st">
       <div class="frame">
         <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-        <!-- <img src="images/memory-lead.jpg" alt="Describe the picture for screen readers"> -->
-        <canvas data-kind="eyes" aria-hidden="true"></canvas>
+        <img src="images/memory3.jpg" alt="Describe the picture for screen readers">
       </div>
-      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+      <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
     </figure>
 
     <div class="dgrid">
@@ -1109,25 +1069,18 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
           <div><dt>Artist</dt><dd>Sougwen Chung</dd></div>
           <div><dt>Year</dt><dd>2015 onward</dd></div>
           <div><dt>Medium</dt><dd>Robotic arms, drawing, performance</dd></div>
-          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
         </dl>
       </aside>
 
       <div class="dtext st">
         <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
         <h3>About the work</h3>
-        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
-        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
-
-        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
-        <blockquote class="dquote">
-          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
-          <cite>Name · Source · Year</cite>
-        </blockquote>
+        <p>The project began in 2015. In the first piece, created during Chung’s research fellowship at MIT Media Lab, the artist draws freehand with a white pencil on black paper while a robotic arm draws alongside. The arm follows the artist through an overhead camera and computer vision software, so the two move in synchrony and the result is captured as a drawing. Each performance lasts ten minutes. The machine was not a perfect copyist, and that turned out to matter. Its “mistakes” made the work more interesting, and Chung took the idea further in the second generation. The first work received an Entertainment Division Excellence Award at the Japan Media Arts Festival, where the jury likened its freedom from pre-established harmony to abstract expressionism.</p>
+        <p>The second generation, MEMORY (2017), moved from imitation to remembering. The first-generation system watched, while MEMORY introduced a neural network trained on two decades of Chung’s archived drawings. Rather than an accident produced by pushing a robotic arm to its limits, this was a designed system built to respond to the artist’s drawings in ways they did not expect. In 2022 the Victoria and Albert Museum in London acquired the work. The artist’s site calls it the first AI model collected by a major cultural institution.</p>
 
         <h3>Process</h3>
         <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        
         <h3>Context</h3>
         <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
       </div>
@@ -1140,26 +1093,20 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/memory-2.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="strokes" aria-hidden="true"></canvas>
+            <img src="images/memory1.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/memory-3.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="mandala" aria-hidden="true"></canvas>
+            <img src="images/memory2.png" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/memory-4.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="pixels" aria-hidden="true"></canvas>
+            <img src="images/memory4.png" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
       </div>
     </section>
@@ -1168,8 +1115,7 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
       <div class="dtext">
         <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
-        <p>Sougwen Chung is a Chinese-Canadian artist and researcher known for pioneering human–machine collaboration in drawing and performance.</p>
-        <p>Placeholder text. A longer note on the artist can continue here.</p>
+        <p>Sougwen Chung is a Chinese-Canadian artist and researcher known for pioneering human–machine collaboration in drawing and performance. Working at the intersection of art, robotics, and artificial intelligence, Chung develops systems in which human gestures and machine-generated movements influence one another in real time. Drawing on their own movements and archival drawing data, Chung trains robotic systems to interpret and extend their artistic practice, questioning the boundaries between human creativity and machine agency. Their work explores how technology can become a creative partner rather than merely a tool, offering new perspectives on authorship, embodiment, and the evolving relationship between humans and intelligent machines.</p>
       </div>
     </section>
 
@@ -1195,11 +1141,16 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
 
     <figure class="dlead st">
       <div class="frame">
-        <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-        <!-- <img src="images/duchamp-lead.jpg" alt="Describe the picture for screen readers"> -->
-        <canvas data-kind="mesh" aria-hidden="true"></canvas>
+        <iframe 
+          src="https://www.youtube.com/embed/L6xIZ9cMXS8?si=Zt94csbEMF9U3PMf&start=259&end=322&rel=0" 
+          title="YouTube video player" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" 
+          allowfullscreen>
+        </iframe>
       </div>
-      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+      <figcaption>Video documentation · Installation view</figcaption>
     </figure>
 
     <div class="dgrid">
@@ -1207,29 +1158,27 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
         <dl>
           <div><dt>Artist</dt><dd>London Tsai</dd></div>
-          <div><dt>Year</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Year</dt><dd>2019-2023</dd></div>
           <div><dt>Medium</dt><dd>Kinetic sculpture, interactive cybernetic system</dd></div>
-          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
         </dl>
       </aside>
 
       <div class="dtext st">
         <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
         <h3>About the work</h3>
-        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
-        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+        <p>Cybernetic Duchamp explores how the relationship between humans and machines can transform the meaning of an artwork. By introducing unpredictability into a familiar artistic object, London Tsai challenges the idea of a sculpture as a fixed, self-contained form. The work connects to the broader history of cybernetics, in which feedback and interaction become central to understanding systems. It also continues a family legacy of experimentation with kinetic sculpture, extending earlier explorations of machine behaviour into a new dialogue between conceptual art and responsive technology.</p>
+        <p>Constructed around a bicycle wheel and a mechanical system, the sculpture uses movement and interactive feedback to produce behaviour that cannot be entirely anticipated. Rather than simply observing a finished object, visitors encounter a system whose changing state becomes part of the artwork itself. Its shifting motion makes visible the tension between control and instability, inviting viewers to consider how human intervention, mechanical processes, and environmental conditions can collectively shape an artistic experience.</p>
 
         <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
         <blockquote class="dquote">
-          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
-          <cite>Name · Source · Year</cite>
+          <p>“Individuals do not exist in a vacuum. Instead, we are part of many complex systems. Art objects are part of these, too. As such, it's essential that they respond to their environments and that they be seen in various contexts. My process of art-making is cybernetic. I explore the material world and discover how things can come together. I start with an idea but bump into things that alter my course. I am surprised by the final result and (because the work is cybernetic) by its unexpected behaviour. -London Tsai”</p>
         </blockquote>
 
         <h3>Process</h3>
-        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <p>Inspired by Marcel Duchamp’s Bicycle Wheel (1913), London Tsai reimagines the familiar readymade as an interactive cybernetic sculpture. Growing up, Tsai repeatedly encountered Duchamp’s work at MoMA, but felt that its suggestion of movement remained unrealized. Drawing on the kinetic and feedback-based sculptural tradition developed by his father, Wen-Ying Tsai, he transformed the static wheel into a mechanism activated by audience participation. Viewers can set the wheel in motion, turning the sculpture into an unpredictable event rather than a fixed object. The artist describes the work as an instabile—an unstable mobile—that embraces chaotic movement instead of mechanical equilibrium.</p>
+        
         <h3>Context</h3>
-        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+        <p>Cybernetic Duchamp bridges the history of conceptual art and cybernetic sculpture. Duchamp’s Bicycle Wheel challenged conventional definitions of art by presenting an everyday object as a work of art, while London Tsai introduces movement, feedback, and viewer participation into that conceptual gesture. The work also extends the legacy of his father, Wen-Ying Tsai, whose pioneering sculptures used vibrating metal rods, stroboscopic light, and sound-responsive feedback systems to make audiences active participants. By replacing Duchamp’s static object with an unstable, interactive mechanism, London Tsai reconsiders the relationship between artist, artwork, and viewer: the sculpture’s behaviour emerges not solely from its construction but through encounters with people and its surroundings.</p>
       </div>
     </div>
 
@@ -1240,26 +1189,23 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/duchamp-2.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="land" aria-hidden="true"></canvas>
+            <img src="images/duchamp1.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
+          <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/duchamp-3.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="mirror" aria-hidden="true"></canvas>
+            <img src="images/duchamp3.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
+          <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/duchamp-4.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="avatar" aria-hidden="true"></canvas>
+            <img src="images/duchamp4.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+          <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
       </div>
     </section>
@@ -1268,8 +1214,7 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <h3 class="mono">About the artist</h3> <!-- [TEXT] heading -->
       <div class="dtext">
         <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
-        <p>London Tsai is a Brooklyn-based artist working in kinetic and cybernetic sculpture.</p>
-        <p>Placeholder text. A longer note on the artist can continue here.</p>
+        <p>Lun-Yi London Tsai is an American, New-York born, artist whose work explores the intersection of mathematics, visual art, sculpture, and interactive technology. Born in 1970, he is particularly interesting because he combines mathematically inspired abstract forms with contemporary cybernetic systems, continuing and transforming the work of his father, Wen-Ying Tsai, a pioneer of cybernetic art.</p>
       </div>
     </section>
 
@@ -1296,10 +1241,9 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
     <figure class="dlead st">
       <div class="frame">
         <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-        <!-- <img src="images/living-lead.jpg" alt="Describe the picture for screen readers"> -->
-        <canvas data-kind="parcels" aria-hidden="true"></canvas>
+        <img src="images/distance3.jpg" alt="Describe the picture for screen readers">
       </div>
-      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+      <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
     </figure>
 
     <div class="dgrid">
@@ -1309,27 +1253,26 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
           <div><dt>Artist</dt><dd>Xin Liu</dd></div>
           <div><dt>Year</dt><dd>2019–2020</dd></div>
           <div><dt>Medium</dt><dd>Two-channel video, VR installation, performance</dd></div>
-          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
         </dl>
       </aside>
 
       <div class="dtext st">
         <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
         <h3>About the work</h3>
-        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
-        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
+        <p>Living Distance explores the emotional and philosophical consequences of sending a fragment of the human body beyond the limits of its familiar environment. Through this unusual journey, Xin Liu reflects on separation, identity, and the uncertain boundary between the self and the nonhuman. The work asks whether technological exploration can extend human experience beyond biological limits, and what it means to remain connected to something that has traveled far beyond our reach.</p>
+        <p>Combining robotics, aerospace engineering, and immersive digital media, Liu transforms a scientific mission into a personal narrative. The viewer encounters the unfamiliar conditions of space through shifting perspectives, where familiar ideas of home, embodiment, and gravity become newly uncertain. Rather than presenting space as a simple frontier of progress, the work considers it a place of vulnerability and transformation, revealing how technological ambition can produce both physical distance and unexpected forms of emotional connection.</p>
 
         <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
         <blockquote class="dquote">
-          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
-          <cite>Name · Source · Year</cite>
+          <p>“In many ways, the distance created geographically or physically is a metaphor and is reflected in the emotional and spiritual experience.”</p>
+          <cite>Xin Liu · interview with the Los Angeles Times · 2021</cite>
         </blockquote>
 
         <h3>Process</h3>
-        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <p>Developed in collaboration with researchers at the MIT Media Lab’s Space Exploration Initiative, *Living Distance* grew from Xin Liu’s experiments with robotic movement in microgravity. Liu designed EBIFA (*Everything Beautiful Is Far Away*), a crystalline robotic sculpture carrying her wisdom tooth, to test a spider-inspired locomotion mechanism that propels itself through space using a tethered projectile and retractable string. The sculpture’s movements were modelled and calculated in advance because the zero-gravity conditions could not be fully reproduced on Earth. In May 2019, EBIFA travelled aboard Blue Origin’s New Shepard rocket, where the experiment became both a technological demonstration and a personal artistic performance. The project later expanded into video and virtual reality, with producer Qinya (Jenny) Guo and video artist Paul McGeiver among its documented contributors. </p>
+        
         <h3>Context</h3>
-        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+        <p>*Living Distance* belongs to Xin Liu’s wider exploration of how technology can reshape human relationships with the body, space, and belonging. It builds on *Orbit Weaver* (2017), a zero-gravity performance in which Liu moved through a weightless environment like a spider, connecting herself to her surroundings with threads. In *Living Distance*, she transfers this mode of movement to a robotic surrogate, turning a scientific experiment into a meditation on departure, transformation, and return. The work also reflects Liu’s experience of migration, connecting the physical distance between Earth and space with the emotional distance between places called home. Situated between engineering, performance, and speculative storytelling, it asks whether technological expansion changes not only where humans can travel, but also how they understand themselves. </p>
       </div>
     </div>
 
@@ -1340,26 +1283,20 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/living-2.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="mandala" aria-hidden="true"></canvas>
+            <img src="images/distance1.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/living-3.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="pixels" aria-hidden="true"></canvas>
+            <img src="images/distance4.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/living-4.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="eyes" aria-hidden="true"></canvas>
+            <img src="images/distance5.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
       </div>
     </section>
@@ -1369,7 +1306,7 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <div class="dtext">
         <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
         <p>Xin Liu (b. 1991, Xinjiang) is an artist and engineer whose work explores the intersections of technology, nature, and human experience.</p>
-        <p>Placeholder text. A longer note on the artist can continue here.</p>
+        <p>Working across sculpture, video, robotics, and immersive digital environments, Liu combines scientific research with personal narratives to investigate how technological progress reshapes human identity and perception. With a background in engineering and degrees from Tsinghua University, the Rhode Island School of Design, and MIT, she develops projects that bridge artistic experimentation and scientific inquiry. Her practice frequently engages with space exploration, biotechnology, and the movement of matter, examining the tensions between human vulnerability and technological ambition. Through speculative experiments and unconventional materials, Liu invites audiences to reconsider humanity’s place within increasingly complex technological and planetary systems. </p>
       </div>
     </section>
 
@@ -1396,10 +1333,9 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
     <figure class="dlead st">
       <div class="frame">
         <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-        <!-- <img src="images/horologic-related-lead.jpg" alt="Describe the picture for screen readers"> -->
-        <canvas data-kind="strokes" aria-hidden="true"></canvas>
+        <img src="images/solum1.jpg" alt="Describe the picture for screen readers">
       </div>
-      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+      <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
     </figure>
 
     <div class="dgrid">
@@ -1407,10 +1343,9 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
         <dl>
           <div><dt>Artist</dt><dd>Vivian Xu &amp; Benjamin Bacon</dd></div>
-          <div><dt>Year</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Medium</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Year</dt><dd>2020–2021</dd></div>
+          <div><dt>Medium</dt><dd>Sound installation; tape machines, magnetic tape, metal, timer clocks, and cassette tape cycling systems.</dd></div>
+          <div><dt>Courtesy</dt><dd>Artists and the Shenzhen Science, Technology and Arts (STArts) Festival, which commissioned the work for The Final Prophet exhibition.</dd></div>
           <div><dt>Related to</dt><dd>Horologic Hysteros</dd></div>
         </dl>
       </aside>
@@ -1418,19 +1353,12 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <div class="dtext st">
         <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
         <h3>About the work</h3>
-        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
-        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
-
-        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
-        <blockquote class="dquote">
-          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
-          <cite>Name · Source · Year</cite>
-        </blockquote>
+        <p>Vivian Xu’s Horologic Solum, created in collaboration with Benjamin Bacon, investigates how technological media preserve and transform cultural memory. The installation uses the NASA Voyager Golden Record, an archive of sounds and images intended to communicate aspects of human civilization to potential extraterrestrial life, as its central source material. The record’s contents are transferred onto cassette tapes that repeatedly cycle through tape machines until the physical tape deteriorates and breaks. Timers track the process, while the resulting sounds make the gradual destruction of the recorded material audible. Rather than treating technology as a neutral tool for storing information, Xu demonstrates how the physical properties of media determine what can survive, be transmitted, or eventually be forgotten. The work connects to cybernetics through its mechanical feedback and repetition, but it also complicates the idea that information systems can maintain perfect control over their outputs. The machines continue operating even as their material components deteriorate, producing an unpredictable relationship between technological processes and the information they carry. Ultimately, Horologic Solum asks what happens to collective knowledge when the systems responsible for preserving it begin to fail.</p>
 
         <h3>Process</h3>
-        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <p>Created by Vivian Xu and Benjamin Bacon in 2020–2021, Horologic Solum uses the NASA Voyager Golden Record as the starting point for an experiment in mechanical degradation and sound. The artists constructed a looping system using tape machines, timer clocks, and cassette-tape mechanisms arranged across two pedestals. Audio content from the Golden Record was transferred onto magnetic tape and repeatedly played through the system. With each cycle, the tape gradually wore down until it broke, physically destroying the medium carrying the information. The artists recorded the number of loops and the elapsed time, collecting the broken tape fragments as material evidence of the process. Rather than simply documenting decay, the installation makes the deterioration itself part of the artwork's composition.</p>
         <h3>Connection to Horologic Hysteros</h3>
-        <p>Placeholder text. Explain how this work complements Horologic Hysteros in this room: a shared theme, a contrasting method, or the next step in the artist’s thinking.</p>
+        <p>Horologic Solum (2020–2021) and Horologic Hysteros (2026) form two parts of an ongoing investigation into how machines shape our understanding of memory and time. While Horologic Solum examines the fragility of cultural memory through the gradual destruction of audio recordings derived from the Voyager Golden Record, Horologic Hysteros expands this inquiry beyond archival preservation to explore how machines generate their own rhythms and histories. In the later work, radioactive emissions detected by Geiger counters drive a system of looping tape, transforming an invisible physical process into an evolving soundscape. Together, the works shift attention from what technology preserves to how technological systems produce, measure, and ultimately consume time.</p>
       </div>
     </div>
 
@@ -1441,26 +1369,14 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/horologic-related-2.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="mirror" aria-hidden="true"></canvas>
+            <img src="images/solum2.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/horologic-related-3.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="avatar" aria-hidden="true"></canvas>
+            <img src="images/solum3.png" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
-        </figure>
-        <figure>
-          <div class="frame">
-            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/horologic-related-4.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="mesh" aria-hidden="true"></canvas>
-          </div>
-          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
       </div>
     </section>
@@ -1470,7 +1386,7 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <div class="dtext">
         <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
         <p>Vivian Xu is a media artist and Assistant Professor at Duke Kunshan University whose work explores bio and electronic media.</p>
-        <p>Placeholder text. A longer note on the artist can continue here.</p>
+        <p>Her research-driven practice combines methods from art and science to investigate how living systems, materials, and machines interact. Working across sculpture, installation, and experimental media, she examines the boundaries between the biological and the technological, exploring how feedback, sensory processes, and ecological relationships challenge conventional distinctions between life and nonlife. She also co-directs the Design, Technology, and Radical Media Lab at Duke Kunshan University with Benjamin Bacon.</p>
       </div>
     </section>
 
@@ -1484,23 +1400,22 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
      [TEXT]  Edit the plain-English words only and keep the <tags> around them. To add a paragraph, copy a whole <p>...</p> line.
      [IMAGE] 4 picture slots: 1 wide lead + 3 in the gallery. Each is a placeholder <canvas>; instructions sit above each slot.
      ====================================================================== -->
-<template id="d-cry" data-nav="De Shan Shui, related work">
+<template id="d-cry" data-nav="Do Androids Dream of Electric Cows?, related work">
   <div class="dossier">
 
     <header class="dhead st">
       <span class="dnum" aria-hidden="true">III</span> <!-- big outlined room numeral -->
       <p class="mono deyebrow">Room III · Related work</p> <!-- [TEXT] small label above the title -->
-      <h2 class="dtitle" id="dlg-title">De Shan Shui</h2> <!-- [TEXT] title of this page -->
+      <h2 class="dtitle" id="dlg-title">Do Androids Dream of Electric Cows?</h2> <!-- [TEXT] title of this page -->
       <p class="mono dmeta">Chen Baoyang</p> <!-- [TEXT] one-line details under the title -->
     </header>
 
     <figure class="dlead st">
       <div class="frame">
         <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-        <!-- <img src="images/cry-related-lead.jpg" alt="Describe the picture for screen readers"> -->
-        <canvas data-kind="land" aria-hidden="true"></canvas>
+        <img src="images/cow1.jpg" alt="Describe the picture for screen readers">
       </div>
-      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+      <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
     </figure>
 
     <div class="dgrid">
@@ -1508,10 +1423,10 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <!-- [TEXT] FACTS LIST: one <div> per row, <dt> is the label and <dd> the value. Replace the grey "To be added" with your text, delete a row you do not need, or copy a row to add one. -->
         <dl>
           <div><dt>Artist</dt><dd>Chen Baoyang</dd></div>
-          <div><dt>Year</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Medium</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
+          <div><dt>Year</dt><dd>2017</dd></div>
+          <div><dt>Medium</dt><dd>Virtual reality, mirror maze, and sound</dd></div>
+          <div><dt>Dimensions</dt><dd>Variable size</dd></div>
+          <div><dt>Courtesy</dt><dd>The artist and Gallery Yang, Beijing (as credited for the 2017 exhibition).</dd></div>
           <div><dt>Related to</dt><dd>I&#x27;ve Seen You Cry in the Rain</dd></div>
         </dl>
       </aside>
@@ -1519,19 +1434,12 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <div class="dtext st">
         <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
         <h3>About the work</h3>
-        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
-        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
-
-        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
-        <blockquote class="dquote">
-          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
-          <cite>Name · Source · Year</cite>
-        </blockquote>
+        <p>Chen Baoyang’s Do Androids Dream of Electric Cows? explores the boundaries between human perception and artificial intelligence through a virtual reality installation. Inspired by Philip K. Dick’s Do Androids Dream of Electric Sheep? and the film Blade Runner, Chen constructs a virtual environment that intersects with a physical maze made of one-way mirrors. As viewers navigate the space wearing VR headsets, they encounter conflicting visual and physical experiences, making it difficult to distinguish between virtual and physical reality. The maze’s restricted layout further complicates their attempts to find an exit. The work questions how technology changes our understanding of reality and whether humans can maintain control over their experiences within increasingly complex digital environments. In relation to cybernetics, the installation demonstrates how technological systems shape human perception and behavior, turning the viewer into an active participant in a feedback loop between the physical body and virtual space.</p>
 
         <h3>Process</h3>
-        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <p>Inspired by a dream Chen Baoyang had in the summer of 2016, Do Androids Dream of Electric Cows? began with the image of a neon sign bearing its unusual title. After discovering its resemblance to Philip K. Dick’s science-fiction novel Do Androids Dream of Electric Sheep?, Chen developed a virtual environment imagining details from the novel that were absent from its film adaptation, Blade Runner. The work combines a virtual-reality experience with a physical maze constructed from transparent, one-way mirrored glass. Wearing a VR headset, visitors navigate a digitally rendered landscape while physically encountering the maze’s barriers. Whenever they touch the glass, the virtual illusion is interrupted by the limits of their actual surroundings, making the relationship between the two spaces central to the experience.</p>
         <h3>Connection to I&#x27;ve Seen You Cry in the Rain</h3>
-        <p>Placeholder text. Explain how this work complements I&#x27;ve Seen You Cry in the Rain in this room: a shared theme, a contrasting method, or the next step in the artist’s thinking.</p>
+        <p>Together, Chen Baoyang’s Do Androids Dream of Electric Cows? (2017) and I’ve Seen You Afraid in the Rain (2019) examine how technology unsettles the boundaries between reality, identity, and artificial representation. Both works draw on Blade Runner, using its questions about artificial life and human identity to investigate contemporary digital technologies. In the VR installation, visitors experience a conflict between the virtual world they see and the physical barriers that restrict their movement. In the later video, Chen uses AI face-swapping technology to replace the face of the replicant Roy with that of Harrison Ford, the actor who plays the human hunter pursuing replicants in the film. This transformation merges opposing characters into a single image, destabilising the distinction between hunter and hunted, human and artificial. Where the earlier work makes the gap between virtual perception and physical reality tangible, the later work uses AI to blur the boundaries between actor and character, questioning how technology reshapes our understanding of identity and representation.</p>
       </div>
     </div>
 
@@ -1542,26 +1450,14 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/cry-related-2.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="pixels" aria-hidden="true"></canvas>
+            <img src="images/cow3.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/cry-related-3.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="eyes" aria-hidden="true"></canvas>
+            <img src="images/cow2.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
-        </figure>
-        <figure>
-          <div class="frame">
-            <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/cry-related-4.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="parcels" aria-hidden="true"></canvas>
-          </div>
-          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
       </div>
     </section>
@@ -1571,7 +1467,7 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <div class="dtext">
         <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
         <p>Chen Baoyang (b. 1989, Hangzhou) is an artist and curator exploring AI and robotics as creative collaborators.</p>
-        <p>Placeholder text. A longer note on the artist can continue here.</p>
+        <p>Working across artificial intelligence, virtual reality, video, and interactive installation, Chen investigates how emerging technologies reshape human perception, identity, and the boundaries between reality and simulation. His practice combines digital experimentation with philosophical questions drawn from science fiction, exploring the implications of machine intelligence and the increasingly blurred distinction between human and artificial life. Through immersive environments and algorithmically manipulated imagery, Chen invites audiences to reconsider their relationship with technology and the systems that mediate contemporary experience.</p>
       </div>
     </section>
 
@@ -1598,10 +1494,9 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
     <figure class="dlead st">
       <div class="frame">
         <!-- [IMAGE] LEAD picture, wide landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-        <!-- <img src="images/doku-lead.jpg" alt="Describe the picture for screen readers"> -->
-        <canvas data-kind="mandala" aria-hidden="true"></canvas>
+        <img src="images/doku3.jpg" alt="Describe the picture for screen readers">
       </div>
-      <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+      <figcaption>Installation view</figcaption> <!-- [TEXT] caption under the picture -->
     </figure>
 
     <div class="dgrid">
@@ -1611,27 +1506,19 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
           <div><dt>Artist</dt><dd>Lu Yang</dd></div>
           <div><dt>Year</dt><dd>2022</dd></div>
           <div><dt>Medium</dt><dd>Single-channel video, 36 min; digital avatar, motion capture, real-time rendering</dd></div>
-          <div><dt>Dimensions</dt><dd><span class="tba">To be added</span></dd></div>
-          <div><dt>Courtesy</dt><dd><span class="tba">To be added</span></dd></div>
         </dl>
       </aside>
 
       <div class="dtext st">
         <!-- [TEXT] MAIN TEXT: headings are <h3>, paragraphs are <p>. Add or remove paragraphs and headings freely. -->
         <h3>About the work</h3>
-        <p>Placeholder text. This is where the background of the work will go: how the idea began, what the artist set out to question, and how the piece connects to the theme of this room. The paragraph is long enough to show how running text sits beside the facts column.</p>
-        <p>A second paragraph can describe the technology and materials in plain language: the sensors, software, machines or platforms involved, and what a visitor sees, hears or does when they meet the work.</p>
-
-        <!-- [TEXT] QUOTE: optional. Delete the whole <blockquote> block if you do not want a quote. -->
-        <blockquote class="dquote">
-          <p>“Placeholder quotation. A short line from the artist, a curator or a critic can sit here in large type.”</p>
-          <cite>Name · Source · Year</cite>
-        </blockquote>
+        <p>Lu Yang has been developing DOKU since 2018, working closely with scientists, 3D animators and digital technicians and using motion capture technology. The avatar is modelled on the artist’s own body and face. It is not a straightforward self-portrait, though. While sharing Lu Yang’s facial expressions and features, the nonbinary character was generated from an amalgamation of various dancers and musicians. The name carries the philosophy. It comes from “Dokusho Dokushi,” a phrase from a canonical Buddhist scripture meaning that we are born alone and die alone. Lu Yang describes DOKU as a virtual avatar that moves through simulated realities, embodying the dissolution of fixed identity and the recursive nature of consciousness.</p>
+        <p>The project treats reincarnation literally as a structure. Lu Yang has created six versions of the DOKU avatar, corresponding to the six paths of reincarnation in Buddhism. Through this repeated incarnation, the artist is reborn as an ever-present avatar with talents beyond physical limits, uniting an ancient concept with the latest technology. The ideas draw on more than religion. The work blends Buddhism, neuroscience, psychology and modern technology. It is rooted in the Madhyamaka school of Buddhist philosophy.</p>
 
         <h3>Process</h3>
-        <p>Process text goes here. Use this block for how the piece was made, who worked on it, and which earlier experiments led to the final form.</p>
+        <p>Lu Yang began developing DOKU in 2019, building a digital avatar based on scans of their own face and body. Using 3D modelling and animation, they created a virtual figure capable of moving between different environments, identities, and states of being. The avatar became the foundation for an evolving series of video works, combining computer-generated imagery, music, choreography, and elaborate digital worlds. Rather than following a conventional production process based on extensive revision, Lu describes their practice as guided by vivid mental images that emerge through meditation and are subsequently translated into digital form. The resulting works bring together technical precision and imaginative world-building, allowing a virtual body to become the vehicle for philosophical and spiritual exploration.</p>
         <h3>Context</h3>
-        <p>Context text goes here. Place the work in a wider setting: earlier projects by the artist, related works in this exhibition, or the history of cybernetics in China that frames the show.</p>
+        <p>DOKU continues Lu Yang’s longstanding investigation into the instability of the human body and the possibility of transcending its limitations through digital technology. Drawing on Buddhist ideas of impermanence and non-self, the avatar challenges the assumption that identity depends on a fixed physical form. Its name derives from the Japanese phrase dokusho dokushi, meaning “we are born alone, we die alone.” Across the series, DOKU moves through shifting realities and digital embodiments, bringing ancient spiritual concepts into dialogue with contemporary gaming culture, neuroscience, and virtual identity. The work was also presented at Shanghai’s West Bund Museum as part of Computer Worlds: A Personal Journey Through Digital Art, an exhibition exploring the evolution of artistic expression through digital technologies. Within this context, DOKU highlights how virtual environments can become spaces for questioning the nature of consciousness, identity, and existence</p>
       </div>
     </div>
 
@@ -1642,26 +1529,21 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 1, portrait. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/doku-2.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="avatar" aria-hidden="true"></canvas>
+            <img src="images/Doku1.png" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Detail</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 2, landscape. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/doku-3.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="mesh" aria-hidden="true"></canvas>
+            <img src="images/Doku2.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Process</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
         <figure>
           <div class="frame">
             <!-- [IMAGE] GALLERY picture 3, square. To use your own picture: delete the <canvas> line below, and un-comment the <img> line under this note (delete the comment markers at both ends of it). Then put your file in the images folder. -->
-            <!-- <img src="images/doku-4.jpg" alt="Describe the picture for screen readers"> -->
-            <canvas data-kind="strokes" aria-hidden="true"></canvas>
+            <img src="images/doku4.jpg" alt="Describe the picture for screen readers">
           </div>
-          <figcaption>Placeholder image · Installation view</figcaption> <!-- [TEXT] caption under the picture -->
+          <figcaption>Taken at Shanghai's West Bund Museum 19/10/2026</figcaption> <!-- [TEXT] caption under the picture -->
         </figure>
       </div>
     </section>
@@ -1671,7 +1553,7 @@ dialog.dlg.closing { animation: iris-out 0.55s cubic-bezier(0.7, 0, 0.3, 1) forw
       <div class="dtext">
         <!-- [TEXT] ABOUT THE ARTIST: short note at the bottom of the pop-up -->
         <p>Lu Yang (b. 1984, Shanghai) is an artist whose work draws on neuroscience, Buddhist imagery, and game culture.</p>
-        <p>Placeholder text. A longer note on the artist can continue here.</p>
+        <p>Lu Yang’s practice brings together the visual languages of anime, video games, religious iconography, and medical imaging to create worlds that are at once playful, unsettling, and philosophically charged. Their work often features digitally generated characters engaged in elaborate rituals, dances, and transformations, drawing on Buddhist cosmology and scientific theories of the mind. Rejecting conventional distinctions between the sacred and the synthetic, Lu treats digital space as a site for reimagining existence, where questions of mortality, consciousness, and the self unfold through spectacle, repetition, and virtual performance.</p>
       </div>
     </section>
 
